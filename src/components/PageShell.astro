@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/utils";
 import SiteHeader from "@/components/SiteHeader.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SeoHead from "@/components/SeoHead.astro";
+import ThemeInit from "@/components/ThemeInit.astro";
 import "@/styles/global.css";
 
 interface Props {
@@ -20,6 +21,7 @@ const { locale, title, description, path, pageType = "website", jsonLd }: Props 
 <!doctype html>
 <html lang={locale === "pt" ? "pt-BR" : "en"}>
   <head>
+    <ThemeInit />
     <SeoHead
       locale={locale}
       title={title}

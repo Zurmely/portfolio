@@ -165,6 +165,16 @@ export const ui = {
       en: "This site is fully static. There is no form or submission backend.",
     },
   },
+  themeToggle: {
+    toDark: {
+      pt: "Ativar modo escuro",
+      en: "Switch to dark mode",
+    },
+    toLight: {
+      pt: "Ativar modo claro",
+      en: "Switch to light mode",
+    },
+  },
   workMeta: {
     role: { pt: "Papel", en: "Role" },
     client: { pt: "Cliente", en: "Client" },

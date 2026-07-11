@@ -2,6 +2,7 @@
 import type { Locale } from "@/i18n/utils";
 import Container from "@/components/Container.astro";
 import LocaleSwitcher from "@/components/LocaleSwitcher.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
 import { navigation, siteMeta } from "@/data/site";
 import Icon from "@/components/Icon.astro";
 
@@ -27,6 +28,7 @@ const { locale, currentPath }: Props = Astro.props;
         }
       </nav>
       <div class="site-header__actions">
+        <ThemeToggle locale={locale} />
         <LocaleSwitcher locale={locale} currentPath={currentPath} />
         <button
           type="button"

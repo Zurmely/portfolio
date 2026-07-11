@@ -2,6 +2,7 @@
 import Container from "@/components/Container.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
 import SeoHead from "@/components/SeoHead.astro";
+import ThemeInit from "@/components/ThemeInit.astro";
 import { ui } from "@/data/site";
 import "@/styles/global.css";
 ---
@@ -9,6 +10,7 @@ import "@/styles/global.css";
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <ThemeInit />
     <SeoHead
       locale="pt"
       title={`${ui.localeGateway.title.pt} | Gabriel Zurmely`}
@@ -28,9 +30,9 @@ import "@/styles/global.css";
       })();
     </script>
   </head>
-  <body class="locale-gateway">
+  <body class="locale-gateway" data-surface="dark">
     <Container dark class="locale-gateway__panel">
-      <p class="section__eyebrow" style="color: #d4d4d8;">Gabriel Zurmely</p>
+      <p class="section__eyebrow">Gabriel Zurmely</p>
       <h1 class="hero__title" style="font-size: var(--font-size-5xl);">
         {ui.localeGateway.title.pt}
       </h1>

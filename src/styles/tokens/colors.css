@@ -1,6 +1,8 @@
 /* Semantic color tokens from TypeUI Atlas */
 
 :root {
+  color-scheme: light dark;
+
   /* Text */
   --color-body: #727272;
   --color-body-on-light: #5f5f5f;
@@ -37,9 +39,35 @@
   --color-danger-soft: #fff1f2;
 }
 
+/* Dark theme: remap light surfaces and text only; dark surfaces stay fixed */
+[data-theme="dark"] {
+  --color-body: #a1a1aa;
+  --color-body-on-light: #b4b4b8;
+  --color-body-subtle: #9a9a9e;
+  --color-heading: #efefef;
+  --color-fg-brand-strong: #bcd3cf;
+  --color-fg-disabled: #6b6b70;
+
+  --color-neutral-primary-soft: #1e1e1e;
+  --color-neutral-tertiary: #242424;
+  --color-neutral-tertiary-medium: #2c2c2c;
+  --color-neutral-quaternary: #3a3735;
+  --color-surface-raised: #2a2a2a;
+
+  --color-brand-softer: #1a2e2c;
+
+  --color-border-default: #2c2c2c;
+  --color-border-default-strong: #3a3735;
+
+  --color-success-soft: #0f2918;
+  --color-danger-soft: #2a1215;
+}
+
 [data-surface="dark"] {
   --color-text-primary: var(--color-white);
   --color-text-secondary: #a1a1aa;
+  --color-text-soft: #d4d4d8;
+  --color-text-nav: #e5e5e5;
   --color-text-link: var(--color-white);
   --color-border-surface: var(--color-border-dark);
   --color-button-bg: var(--color-surface-inverse-light);
@@ -67,4 +95,11 @@
   --color-button-bg: var(--color-surface-dark);
   --color-button-text: var(--color-neutral-tertiary);
   --color-button-border: var(--color-border-default);
+}
+
+[data-theme="dark"] [data-surface="greige-a"],
+[data-theme="dark"] [data-surface="greige-b"] {
+  --color-button-bg: var(--color-surface-inverse-light);
+  --color-button-text: var(--color-surface-dark);
+  --color-button-border: var(--color-border-dark);
 }

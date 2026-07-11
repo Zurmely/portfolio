@@ -56,3 +56,38 @@ test("en homepage passes basic axe checks", async ({ page }) => {
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 });
+
+test("theme toggle switches to dark mode and persists", async ({ page }) => {
+  await page.goto("/en/");
+  await page.evaluate(() => localStorage.setItem("theme", "light"));
+  await page.reload();
+
+  const toggle = page.locator("[data-theme-toggle]");
+  await expect(toggle).toHaveAttribute("aria-label", /Switch to dark mode/i);
+  await toggle.click();
+
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await expect(toggle).toHaveAttribute("aria-label", /Switch to light mode/i);
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
+test("pt homepage passes basic axe checks in dark theme", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("theme", "dark");
+  });
+  await page.goto("/pt/");
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+});
+
+test("en homepage passes basic axe checks in dark theme", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("theme", "dark");
+  });
+  await page.goto("/en/");
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+});

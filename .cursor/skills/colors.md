@@ -237,6 +237,33 @@ dark-backdrop                   #1E1E1E
 
 ---
 
+## Dark theme registry
+
+Applied via `[data-theme="dark"]` on the document root. **Dark surfaces stay fixed** (`surface-dark`, `border-dark`, brand core). **Light surfaces and their dependent text/border tokens remap** to charcoal equivalents so greige content sections read as dark bands while hero and footer remain `#161616`.
+
+```
+body                          #A1A1AA
+body-on-light                 #B4B4B8
+body-subtle                   #9A9A9E
+heading                       #EFEFEF
+fg-brand-strong               #BCD3CF
+fg-disabled                   #6B6B70
+neutral-primary-soft          #1E1E1E
+neutral-tertiary              #242424
+neutral-tertiary-medium       #2C2C2C
+neutral-quaternary            #3A3735
+surface-raised                #2A2A2A
+brand-softer                  #1A2E2C
+border-default                #2C2C2C
+border-default-strong         #3A3735
+success-soft                  #0F2918
+danger-soft                   #2A1215
+```
+
+Greige section buttons under dark theme use the same surface-inverse treatment as dark sections (light fill, dark label). Hero, header shell, and footer keep `surface-dark` (`#161616`) in both themes.
+
+---
+
 ## Usage rules
 
 - **Content greige rhythm; dark hero/footer; dashboard greige-only.** Content sections alternate `neutral-secondary-soft` (`#E6E3E0`) and `neutral-tertiary` (`#E0DCD8`) — never one flat tone. The **hero and footer are always `surface-dark` (`#161616`)**; an optional mid-page `#161616` band may take a 44px rounded top after 2–3 greige sections. `brand` (`#32746D`) is **never a section background**. Dashboard/application routes use warm greige only — no dark bands, no section rounding. See `sections.md`.
