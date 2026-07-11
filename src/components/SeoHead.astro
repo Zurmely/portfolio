@@ -1,0 +1,52 @@
+---
+import type { Locale } from "@/i18n/utils";
+import { getAlternateLocale } from "@/i18n/utils";
+import { getSiteUrl, siteMeta } from "@/data/site";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path: string;
+  type?: "website" | "article";
+  image?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  locale,
+  title,
+  description,
+  path,
+  type = "website",
+  image = siteMeta.ogImage,
+  jsonLd,
+}: Props = Astro.props;
+
+const canonical = getSiteUrl(path);
+const alternate = getAlternateLocale(locale);
+const alternatePath = path.replace(`/${locale}/`, `/${alternate}/`);
+const alternateUrl = getSiteUrl(alternatePath);
+const ogImage = getSiteUrl(image);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang={locale} href={canonical} />
+<link rel="alternate" hreflang={alternate} href={alternateUrl} />
+<link rel="alternate" hreflang="x-default" href={getSiteUrl(path.replace(`/${locale}/`, "/pt/"))} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={locale === "pt" ? "pt_BR" : "en_US"} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+{jsonLd ? <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} /> : null}

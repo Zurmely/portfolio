@@ -1,0 +1,36 @@
+---
+import type { Locale } from "@/i18n/utils";
+import Icon from "@/components/Icon.astro";
+import { contactLinks, isRenderableLink, resolveLinkHref } from "@/data/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale }: Props = Astro.props;
+const links = contactLinks.filter(isRenderableLink);
+---
+
+{
+  links.length > 0 ? (
+    <div class="contact-links">
+      {links.map((link) => (
+        <a
+          class="contact-link"
+          href={resolveLinkHref(link)}
+          target={link.external ? "_blank" : undefined}
+          rel={link.external ? "noreferrer noopener" : undefined}
+        >
+          <span>{link.label[locale]}</span>
+          <Icon name={link.email ? "Mail" : "ArrowUpRight"} size={18} />
+        </a>
+      ))}
+    </div>
+  ) : (
+    <p class="card__body">
+      {locale === "pt"
+        ? "TODO_CONTENT: adicione e-mail e links sociais em src/data/site.ts."
+        : "TODO_CONTENT: add email and social links in src/data/site.ts."}
+    </p>
+  )
+}

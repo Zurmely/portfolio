@@ -1,0 +1,21 @@
+{
+  "locale": "pt",
+  "translationKey": "ufmg-design-degree",
+  "organization": "Universidade Federal de Minas Gerais (UFMG)",
+  "role": "Graduação em Design",
+  "employmentType": "education",
+  "location": "Belo Horizonte, Brasil",
+  "startDate": "2021-01-01",
+  "endDate": "2025-12-01",
+  "current": false,
+  "summary": "Formação em Design com foco em experiência do usuário, sistemas visuais e pensamento de produto. TODO_CONTENT: detalhar áreas de estudo, TCC ou projetos relevantes.",
+  "achievements": [
+    "TODO_CONTENT: projeto acadêmico em UX",
+    "TODO_CONTENT: disciplina ou linha de pesquisa",
+    "TODO_CONTENT: reconhecimento ou trabalho final"
+  ],
+  "skills": ["Design", "UX", "Pesquisa", "Comunicação visual"],
+  "organizationUrl": "https://ufmg.br/",
+  "order": 2,
+  "draft": false
+}

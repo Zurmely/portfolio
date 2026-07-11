@@ -1,0 +1,44 @@
+---
+import Container from "@/components/Container.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+import SeoHead from "@/components/SeoHead.astro";
+import { ui } from "@/data/site";
+import "@/styles/global.css";
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <SeoHead
+      locale="pt"
+      title={`${ui.localeGateway.title.pt} | Gabriel Zurmely`}
+      description={ui.localeGateway.subtitle.pt}
+      path="/"
+    />
+    <script is:inline>
+      (function () {
+        try {
+          const lang = (navigator.language || "").toLowerCase();
+          if (lang.startsWith("en")) {
+            window.location.replace("/en/");
+          }
+        } catch {
+          /* no-op */
+        }
+      })();
+    </script>
+  </head>
+  <body class="locale-gateway">
+    <Container dark class="locale-gateway__panel">
+      <p class="section__eyebrow" style="color: #d4d4d8;">Gabriel Zurmely</p>
+      <h1 class="hero__title" style="font-size: var(--font-size-5xl);">
+        {ui.localeGateway.title.pt}
+      </h1>
+      <p class="hero__lead">{ui.localeGateway.subtitle.pt}</p>
+      <div class="locale-gateway__actions">
+        <ButtonLink href="/pt/">{ui.localeGateway.continuePt}</ButtonLink>
+        <ButtonLink href="/en/">{ui.localeGateway.continueEn}</ButtonLink>
+      </div>
+    </Container>
+  </body>
+</html>

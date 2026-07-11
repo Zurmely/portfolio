@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Gabriel Zurmely portfolio placeholder">
+  <rect width="1200" height="630" fill="#E6E3E0"/>
+  <rect x="80" y="80" width="1040" height="470" rx="32" fill="#E0DCD8" stroke="#D0CBC7" stroke-width="4"/>
+  <text x="120" y="280" fill="#1E1E1E" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="700">Gabriel Zurmely</text>
+  <text x="120" y="360" fill="#727272" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="500">Design and UX portfolio placeholder</text>
+</svg>

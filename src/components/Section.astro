@@ -1,0 +1,17 @@
+---
+interface Props {
+  surface?: "dark" | "greige-a" | "greige-b";
+  id?: string;
+  class?: string;
+}
+
+const { surface = "greige-a", id, class: className = "" }: Props = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={["section", { "section--dark": surface === "dark" }, className]}
+  data-surface={surface}
+>
+  <slot />
+</section>

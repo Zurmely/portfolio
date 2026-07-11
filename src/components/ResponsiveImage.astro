@@ -1,0 +1,32 @@
+---
+interface Props {
+  src?: string;
+  alt: string;
+  caption?: string;
+  placeholderLabel?: string;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  placeholderLabel = "TODO_CONTENT media placeholder",
+}: Props = Astro.props;
+---
+
+<figure>
+  {
+    src ? (
+      <img src={src} alt={alt} loading="lazy" decoding="async" />
+    ) : (
+      <div class="placeholder-media">{placeholderLabel}</div>
+    )
+  }
+  {
+    caption ? (
+      <figcaption class="card__meta" style="margin-top: var(--spacing-3);">
+        {caption}
+      </figcaption>
+    ) : null
+  }
+</figure>

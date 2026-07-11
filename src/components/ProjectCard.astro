@@ -1,0 +1,52 @@
+---
+import type { Locale } from "@/i18n/utils";
+import ButtonLink from "@/components/ButtonLink.astro";
+import { ui } from "@/data/site";
+import { getLocalizedWorkPath } from "@/utils/content";
+
+interface Props {
+  locale: Locale;
+  entry: {
+    slug: string;
+    data: {
+      title: string;
+      summary: string;
+      role: string;
+      client?: string;
+      context?: string;
+      publishDate: Date;
+    };
+  };
+}
+
+const { locale, entry }: Props = Astro.props;
+const href = getLocalizedWorkPath(locale, entry.slug);
+---
+
+<article class="card">
+  <div class="placeholder-media" aria-hidden="true">
+    {locale === "pt" ? "Imagem placeholder do projeto" : "Project image placeholder"}
+  </div>
+  <p class="card__meta">
+    {entry.data.client ?? entry.data.context ?? entry.data.role} · {
+      entry.data.publishDate.getFullYear()
+    }
+  </p>
+  <h3 class="card__title">
+    <a href={href}>{entry.data.title}</a>
+  </h3>
+  <p class="card__body">{entry.data.summary}</p>
+  <ButtonLink href={href}>{ui.sections.readCaseStudy[locale]}</ButtonLink>
+</article>
+
+<style>
+  .card__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card__title a:hover,
+  .card__title a:focus-visible {
+    color: var(--color-fg-brand);
+  }
+</style>

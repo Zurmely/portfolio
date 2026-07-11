@@ -1,0 +1,20 @@
+{
+  "locale": "en",
+  "translationKey": "inter-ux-designer",
+  "organization": "Inter",
+  "role": "TODO_CONTENT: role at Inter",
+  "employmentType": "full-time",
+  "location": "TODO_CONTENT: remote or hybrid",
+  "startDate": "2025-01-01",
+  "current": true,
+  "summary": "I work at Inter, one of Brazil's leading fintechs, contributing to user-centered digital experiences. TODO_CONTENT: add the real scope of the role.",
+  "achievements": [
+    "TODO_CONTENT: product flow contribution",
+    "TODO_CONTENT: collaboration with engineering and product",
+    "TODO_CONTENT: component or pattern evolution"
+  ],
+  "skills": ["UX", "UI", "Design Systems", "Prototyping"],
+  "organizationUrl": "https://www.bancointer.com.br/",
+  "order": 1,
+  "draft": false
+}

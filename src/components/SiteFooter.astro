@@ -1,0 +1,48 @@
+---
+import type { Locale } from "@/i18n/utils";
+import Container from "@/components/Container.astro";
+import { navigation, siteMeta } from "@/data/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale }: Props = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" data-surface="dark">
+  <Container dark>
+    <div class="site-footer__inner">
+      <div>
+        <p
+          class="section__title"
+          style="font-size: var(--font-size-3xl); margin-bottom: var(--spacing-4);"
+        >
+          {siteMeta.name}
+        </p>
+        <p class="hero__lead" style="margin: 0;">
+          {siteMeta.description[locale]}
+        </p>
+      </div>
+      <nav class="site-footer__nav" aria-label={locale === "pt" ? "Rodapé" : "Footer"}>
+        {
+          navigation.map((item) => (
+            <a class="nav-link" href={item.href[locale]}>
+              {item.label[locale]}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="site-footer__bottom">
+        <p style="font-size: var(--font-size-lg); color: #d4d4d8;">
+          © {year}
+          {siteMeta.name}
+        </p>
+        <p style="font-size: var(--font-size-lg); color: #a1a1aa;">
+          {siteMeta.location[locale]}
+        </p>
+      </div>
+    </div>
+  </Container>
+</footer>

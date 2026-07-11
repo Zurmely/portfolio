@@ -1,0 +1,59 @@
+---
+import type { Locale } from "@/i18n/utils";
+import SiteHeader from "@/components/SiteHeader.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SeoHead from "@/components/SeoHead.astro";
+import "@/styles/global.css";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path: string;
+  pageType?: "website" | "article";
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { locale, title, description, path, pageType = "website", jsonLd }: Props = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale === "pt" ? "pt-BR" : "en"}>
+  <head>
+    <SeoHead
+      locale={locale}
+      title={title}
+      description={description}
+      path={path}
+      type={pageType}
+      jsonLd={jsonLd}
+    />
+  </head>
+  <body class="page-shell">
+    <div class="site-top-shell" data-surface="dark">
+      <SiteHeader locale={locale} currentPath={path} />
+    </div>
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+  </body>
+</html>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const panel = document.querySelector<HTMLElement>("[data-mobile-nav]");
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = panel?.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+    header?.classList.toggle("is-menu-open", Boolean(isOpen));
+  });
+</script>
+
+<style>
+  [data-site-header].is-menu-open {
+    background: var(--color-surface-dark);
+  }
+</style>

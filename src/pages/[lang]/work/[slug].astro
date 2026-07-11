@@ -1,0 +1,219 @@
+---
+import PageShell from "@/components/PageShell.astro";
+import Container from "@/components/Container.astro";
+import Section from "@/components/Section.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+import TextLink from "@/components/TextLink.astro";
+import ResponsiveImage from "@/components/ResponsiveImage.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getCollection, render } from "astro:content";
+import type { Locale } from "@/i18n/utils";
+import { siteMeta, ui } from "@/data/site";
+import { getSiteUrl } from "@/data/site";
+import { getLocalizedWorkPath, sortByOrder } from "@/utils/content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("work", ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: {
+      lang: entry.data.locale,
+      slug: entry.id.replace(/\.(md|mdx)$/, ""),
+    },
+  }));
+}
+
+const locale = Astro.params.lang as Locale;
+const slug = Astro.params.slug as string;
+const entry = (await getCollection("work")).find(
+  (item) => item.data.locale === locale && item.id.replace(/\.(md|mdx)$/, "") === slug,
+);
+
+if (!entry) {
+  throw new Error(`Work entry not found for ${locale}/${slug}`);
+}
+
+const { Content } = await render(entry);
+const related = sortByOrder(
+  (
+    await getCollection(
+      "work",
+      ({ data }) =>
+        data.locale === locale && !data.draft && data.translationKey !== entry.data.translationKey,
+    )
+  )
+    .map((item) => ({ ...item, slug: item.id.replace(/\.(md|mdx)$/, "") }))
+    .slice(0, 2),
+);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: entry.data.title,
+  description: entry.data.summary,
+  author: {
+    "@type": "Person",
+    name: siteMeta.name,
+  },
+  datePublished: entry.data.publishDate.toISOString(),
+  url: getSiteUrl(getLocalizedWorkPath(locale, slug)),
+};
+---
+
+<PageShell
+  locale={locale}
+  title={entry.data.seoTitle ?? `${entry.data.title} | ${siteMeta.name}`}
+  description={entry.data.seoDescription ?? entry.data.summary}
+  path={getLocalizedWorkPath(locale, slug)}
+  pageType="article"
+  jsonLd={jsonLd}
+>
+  <Section surface="dark">
+    <Container dark>
+      <div class="section__inner case-study__hero">
+        <Breadcrumb
+          items={[
+            { label: locale === "pt" ? "Início" : "Home", href: `/${locale}/` },
+            { label: ui.sections.selectedWork[locale], href: `/${locale}/#work` },
+            { label: entry.data.title },
+          ]}
+        />
+        <div class="section__header">
+          <p class="section__eyebrow">{entry.data.client ?? entry.data.context}</p>
+          <h1 class="hero__title" style="font-size: var(--font-size-7xl);">{entry.data.title}</h1>
+          <p class="hero__lead">{entry.data.summary}</p>
+        </div>
+        <ResponsiveImage
+          src={entry.data.heroImage?.src}
+          alt={entry.data.heroImage?.alt ?? entry.data.title}
+          placeholderLabel={locale === "pt"
+            ? "Imagem principal placeholder"
+            : "Main image placeholder"}
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section surface="greige-a">
+    <Container>
+      <div class="section__inner">
+        <div class="case-study__meta-grid">
+          <div class="case-study__meta-item">
+            <p class="case-study__meta-label">{ui.workMeta.role[locale]}</p>
+            <p class="case-study__meta-value">{entry.data.role}</p>
+          </div>
+          {
+            entry.data.client ? (
+              <div class="case-study__meta-item">
+                <p class="case-study__meta-label">{ui.workMeta.client[locale]}</p>
+                <p class="case-study__meta-value">{entry.data.client}</p>
+              </div>
+            ) : null
+          }
+          {
+            entry.data.context ? (
+              <div class="case-study__meta-item">
+                <p class="case-study__meta-label">{ui.workMeta.context[locale]}</p>
+                <p class="case-study__meta-value">{entry.data.context}</p>
+              </div>
+            ) : null
+          }
+          {
+            entry.data.duration ? (
+              <div class="case-study__meta-item">
+                <p class="case-study__meta-label">{ui.workMeta.duration[locale]}</p>
+                <p class="case-study__meta-value">{entry.data.duration}</p>
+              </div>
+            ) : null
+          }
+          {
+            entry.data.tools.length > 0 ? (
+              <div class="case-study__meta-item">
+                <p class="case-study__meta-label">{ui.workMeta.tools[locale]}</p>
+                <p class="case-study__meta-value">{entry.data.tools.join(", ")}</p>
+              </div>
+            ) : null
+          }
+          {
+            entry.data.disciplines.length > 0 ? (
+              <div class="case-study__meta-item">
+                <p class="case-study__meta-label">{ui.workMeta.disciplines[locale]}</p>
+                <p class="case-study__meta-value">{entry.data.disciplines.join(", ")}</p>
+              </div>
+            ) : null
+          }
+        </div>
+        <article class="prose">
+          <Content />
+        </article>
+        {
+          entry.data.externalLinks.length > 0 ? (
+            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-4);">
+              {entry.data.externalLinks.map((link) => (
+                <TextLink href={link.url} external>
+                  {link.label}
+                </TextLink>
+              ))}
+            </div>
+          ) : null
+        }
+      </div>
+    </Container>
+  </Section>
+
+  {
+    entry.data.gallery.length > 0 ? (
+      <Section surface="greige-b">
+        <Container>
+          <div class="section__inner">
+            <div class="work-grid">
+              {entry.data.gallery.map((image) => (
+                <ResponsiveImage src={image.src} alt={image.alt} caption={image.caption} />
+              ))}
+            </div>
+          </div>
+        </Container>
+      </Section>
+    ) : null
+  }
+
+  {
+    related.length > 0 ? (
+      <Section surface="greige-a">
+        <Container>
+          <div class="section__inner">
+            <div class="section__header">
+              <h2 class="section__title">{ui.sections.relatedWork[locale]}</h2>
+            </div>
+            <div class="work-grid">
+              {related.map((item) => (
+                <ProjectCard locale={locale} entry={item} />
+              ))}
+            </div>
+          </div>
+        </Container>
+      </Section>
+    ) : null
+  }
+
+  <Section surface="greige-b">
+    <Container>
+      <div class="section__inner">
+        <div class="section__header">
+          <h2 class="section__title">{ui.sections.contact[locale]}</h2>
+          <p class="section__lead">
+            {
+              locale === "pt"
+                ? "Quer saber mais sobre este projeto ou conversar sobre um novo desafio?"
+                : "Want to know more about this project or discuss a new challenge?"
+            }
+          </p>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-4);">
+            <ButtonLink href={`/${locale}/contact/`}>{ui.sections.getInTouch[locale]}</ButtonLink>
+            <ButtonLink href={`/${locale}/#work`}>{ui.sections.backToWork[locale]}</ButtonLink>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</PageShell>

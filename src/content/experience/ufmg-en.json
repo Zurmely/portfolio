@@ -1,0 +1,21 @@
+{
+  "locale": "en",
+  "translationKey": "ufmg-design-degree",
+  "organization": "Universidade Federal de Minas Gerais (UFMG)",
+  "role": "Design Degree",
+  "employmentType": "education",
+  "location": "Belo Horizonte, Brazil",
+  "startDate": "2021-01-01",
+  "endDate": "2025-12-01",
+  "current": false,
+  "summary": "Design education focused on user experience, visual systems, and product thinking. TODO_CONTENT: add areas of study, thesis, or relevant projects.",
+  "achievements": [
+    "TODO_CONTENT: academic UX project",
+    "TODO_CONTENT: course or research track",
+    "TODO_CONTENT: final project or recognition"
+  ],
+  "skills": ["Design", "UX", "Research", "Visual communication"],
+  "organizationUrl": "https://ufmg.br/",
+  "order": 2,
+  "draft": false
+}

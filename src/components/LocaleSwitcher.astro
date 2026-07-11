@@ -1,0 +1,60 @@
+---
+import type { Locale } from "@/i18n/utils";
+import { getAlternateLocale, getLocaleShortLabel } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+  currentPath?: string;
+}
+
+const { locale, currentPath = Astro.url.pathname }: Props = Astro.props;
+const alternate = getAlternateLocale(locale);
+
+function buildAlternatePath(path: string, nextLocale: Locale): string {
+  const segments = path.split("/").filter(Boolean);
+  if (segments.length === 0) return `/${nextLocale}/`;
+  segments[0] = nextLocale;
+  return `/${segments.join("/")}${path.endsWith("/") ? "/" : ""}`;
+}
+
+const alternatePath = buildAlternatePath(currentPath, alternate);
+---
+
+<div class="locale-switcher" role="navigation" aria-label="Language">
+  <a
+    class:list={["nav-link", { "is-active": locale === "pt" }]}
+    href={buildAlternatePath(currentPath, "pt")}
+    hreflang="pt"
+    lang="pt"
+  >
+    {getLocaleShortLabel("pt")}
+  </a>
+  <span aria-hidden="true">/</span>
+  <a
+    class:list={["nav-link", { "is-active": locale === "en" }]}
+    href={buildAlternatePath(currentPath, "en")}
+    hreflang="en"
+    lang="en"
+  >
+    {getLocaleShortLabel("en")}
+  </a>
+  <span class="sr-only">
+    {locale === "pt" ? "Idioma atual: português" : "Current language: English"}
+  </span>
+  <a class="sr-only" href={alternatePath} hreflang={alternate} lang={alternate}>
+    {alternate === "pt" ? "Alternar para português" : "Switch to English"}
+  </a>
+</div>
+
+<style>
+  .locale-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .is-active {
+    color: var(--color-white);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

@@ -1,0 +1,20 @@
+{
+  "locale": "pt",
+  "translationKey": "inter-ux-designer",
+  "organization": "Inter",
+  "role": "TODO_CONTENT: cargo no Inter",
+  "employmentType": "full-time",
+  "location": "TODO_CONTENT: remoto ou híbrido",
+  "startDate": "2025-01-01",
+  "current": true,
+  "summary": "Atuo no Inter, um dos principais fintechs do Brasil, contribuindo para experiências digitais centradas no usuário. TODO_CONTENT: detalhar escopo real do cargo.",
+  "achievements": [
+    "TODO_CONTENT: contribuição em fluxo de produto",
+    "TODO_CONTENT: colaboração com engenharia e produto",
+    "TODO_CONTENT: evolução de componentes ou padrões"
+  ],
+  "skills": ["UX", "UI", "Design Systems", "Prototipação"],
+  "organizationUrl": "https://www.bancointer.com.br/",
+  "order": 1,
+  "draft": false
+}

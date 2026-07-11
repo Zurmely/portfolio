@@ -1,0 +1,31 @@
+---
+import PageShell from "@/components/PageShell.astro";
+import Container from "@/components/Container.astro";
+import Section from "@/components/Section.astro";
+import ButtonLink from "@/components/ButtonLink.astro";
+import { ui } from "@/data/site";
+---
+
+<PageShell
+  locale="pt"
+  title={`${ui.sections.notFoundTitle.pt} | Gabriel Zurmely`}
+  description={ui.sections.notFoundBody.pt}
+  path="/404/"
+>
+  <Section surface="dark">
+    <Container dark>
+      <div class="section__inner">
+        <div class="section__header">
+          <h1 class="hero__title" style="font-size: var(--font-size-7xl);">
+            {ui.sections.notFoundTitle.pt}
+          </h1>
+          <p class="hero__lead">{ui.sections.notFoundBody.pt}</p>
+          <div class="locale-gateway__actions">
+            <ButtonLink href="/pt/">{ui.sections.returnHome.pt}</ButtonLink>
+            <ButtonLink href="/en/">English home</ButtonLink>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</PageShell>

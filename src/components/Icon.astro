@@ -1,0 +1,43 @@
+---
+import { icons, type IconNode } from "lucide";
+
+type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  label?: string;
+}
+
+const { name, size = 16, class: className = "", label }: Props = Astro.props;
+
+const icon: IconNode | undefined = icons[name];
+
+if (!icon) {
+  throw new Error(`Unknown icon: ${name}`);
+}
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={label ? undefined : "true"}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  class={className}
+>
+  {
+    icon.map(([tag, nodeAttrs]) => {
+      const Tag = tag as keyof HTMLElementTagNameMap;
+      return <Tag {...nodeAttrs} />;
+    })
+  }
+</svg>
