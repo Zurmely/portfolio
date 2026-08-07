@@ -6,7 +6,7 @@ import { getViteConfig } from "astro/config";
 export default defineConfig(
   await getViteConfig({
     test: {
-      include: ["tests/unit/**/*.test.ts"],
+      include: ["tests/unit/**/*.test.ts", "tests/build/**/*.test.ts"],
       environment: "node",
     },
   }),

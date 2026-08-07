@@ -85,10 +85,11 @@ npm install
 npm run dev          # http://localhost:4321
 npm run check        # Astro + TypeScript
 npm run lint         # ESLint + Prettier
-npm run test         # Vitest
+npm run test         # Vitest unit tests
+npm run test:static  # SSR/static HTML checks (needs dist/)
 npm run test:e2e     # Playwright (needs browsers installed)
 npm run build        # writes dist/
-npm run test:all     # check + lint + unit + build
+npm run test:all     # check + lint + unit + build + static
 ```
 
 Before pushing non-trivial UI or theme changes, run at least `npm run check` and `npm run build`. For a11y-sensitive UI, also run `npm run test:e2e`.

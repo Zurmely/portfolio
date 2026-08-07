@@ -29,9 +29,10 @@ Open `http://localhost:4321`.
 | `npm run preview`  | Preview production build     |
 | `npm run check`    | Astro + TypeScript checks    |
 | `npm run lint`     | ESLint + Prettier checks     |
-| `npm run test`     | Vitest unit tests            |
-| `npm run test:e2e` | Playwright end-to-end tests  |
-| `npm run test:all` | Full verification pipeline   |
+| `npm run test`       | Vitest unit tests                          |
+| `npm run test:static`| Static HTML checks (run after `build`)     |
+| `npm run test:e2e`   | Playwright end-to-end tests                |
+| `npm run test:all`   | Full verification pipeline                 |
 
 ## Content authoring
 
