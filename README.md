@@ -7,7 +7,7 @@ Bilingual static portfolio and CV for Gabriel Zurmely, built with Astro and depl
 - Astro 5 (static output)
 - TypeScript (strict)
 - Content collections for `work` and `experience`
-- Atlas design tokens from `.cursor/skills/`
+- Z-UI design system (`@z-ux/tokens`, `@z-ux/ui`)
 - Playwright + axe for accessibility checks
 - Vitest for content validation
 
@@ -80,7 +80,7 @@ Links with placeholder values are hidden automatically in the contact UI.
 
 ## Design system
 
-Visual rules come from `.cursor/skills/` (TypeUI Atlas). Token mappings live in `src/styles/tokens/` and `src/styles/global.css`.
+Visual rules come from published Z-UI packages (`@z-ux/tokens`, `@z-ux/ui`). Site composition CSS lives in `src/styles/global.css` and `src/styles/site-text.css`. Consumer guide: `.cursor/skills/SKILL.md`.
 
 ## Deployment
 
@@ -99,7 +99,7 @@ src/
   content/          Work markdown + experience JSON
   data/site.ts      Profile, nav, contact metadata
   pages/            Locale gateway, home, contact, work, 404
-  styles/           Atlas tokens + global styles
+  styles/           Z-UI imports + site composition CSS
   utils/            Content helpers
 public/             Static assets (favicon, placeholders, robots)
 tests/              Vitest + Playwright suites

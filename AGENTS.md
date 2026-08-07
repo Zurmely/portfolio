@@ -30,7 +30,7 @@ Visual rules use the published Z-UI packages. Read component docs in the upstrea
 - Site composition layer: [`src/styles/global.css`](src/styles/global.css) and [`src/styles/site-text.css`](src/styles/site-text.css)
 - Consumer guide: [`.cursor/skills/SKILL.md`](.cursor/skills/SKILL.md)
 
-Use semantic `--z-*` tokens only. Do not reintroduce Atlas-specific surfaces, greige alternation, or one-off hex values.
+Use semantic `--z-*` tokens only. Do not invent one-off hex values or local token sheets that diverge from `@z-ux/tokens`.
 
 ### Theme model
 

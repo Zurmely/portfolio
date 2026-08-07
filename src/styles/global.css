@@ -334,10 +334,6 @@ p {
   padding-block: var(--site-section-padding);
 }
 
-[data-theme="dark"] .site-footer {
-  color: var(--neutral-50);
-}
-
 .site-footer__inner {
   display: grid;
   gap: var(--z-spacing-gap-section);

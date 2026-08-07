@@ -28,7 +28,7 @@ Manrope is self-hosted through `@fontsource-variable/manrope` (no Google Fonts r
 4. Render React components through Astro **without** `client:*` on marketing pages.
 5. Keep theme toggle, mobile nav, and locale redirect as small framework-free scripts.
 6. Use Lucide outline icons for custom icon slots.
-7. Do not invent one-off hex values or resurrect Atlas-specific layout rules.
+7. Do not invent one-off hex values or local token sheets that diverge from `@z-ux/tokens`.
 
 ## Theme
 

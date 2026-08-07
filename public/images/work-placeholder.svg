@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-label="Work placeholder">
-  <rect width="960" height="640" fill="#E6E3E0"/>
-  <rect x="48" y="48" width="864" height="544" rx="24" fill="#E0DCD8" stroke="#D0CBC7" stroke-width="2" stroke-dasharray="8 8"/>
-  <text x="96" y="330" fill="#78736E" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="500">TODO_CONTENT project media</text>
+  <rect width="960" height="640" fill="#f2f1f1"/>
+  <rect x="48" y="48" width="864" height="544" rx="16" fill="#ededed" stroke="#c4c4c4" stroke-width="2" stroke-dasharray="8 8"/>
+  <text x="96" y="330" fill="#555454" font-family="Manrope, system-ui, sans-serif" font-size="32" font-weight="500">TODO_CONTENT project media</text>
 </svg>
