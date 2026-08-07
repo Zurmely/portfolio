@@ -36,7 +36,7 @@ Use semantic `--z-*` tokens only. Do not invent one-off hex values or local toke
 
 - `data-theme="light" | "dark"` on `<html>`
 - Bootstrap: [`src/utils/theme-init.ts`](src/utils/theme-init.ts) + [`ThemeInit.astro`](src/components/ThemeInit.astro)
-- Toggle: [`ThemeToggle.astro`](src/components/ThemeToggle.astro) in the site header (framework-free script)
+- Toggle: Z-UI `IconButton` in [`SiteNavbar.tsx`](src/components/zui/SiteNavbar.tsx) with a framework-free script in [`SiteHeader.astro`](src/components/SiteHeader.astro)
 - Preference: `localStorage.theme`, else `prefers-color-scheme`
 
 ### React usage

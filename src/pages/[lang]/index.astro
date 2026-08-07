@@ -6,6 +6,7 @@ import ButtonLink from "@/components/ButtonLink.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import ExperienceList from "@/components/ExperienceList.astro";
 import FeatureGrid from "@/components/zui/FeatureGrid";
+import { Stack } from "@z-ux/ui/stack";
 import { getCollection } from "astro:content";
 import type { Locale } from "@/i18n/utils";
 import { locales } from "@/i18n/utils";
@@ -64,26 +65,26 @@ const jsonLd = {
 >
   <Section tone="inverse">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <p class="site-eyebrow">{siteMeta.name}</p>
           <h1 class="site-heading site-heading--hero">{profile.headline[locale]}</h1>
           <p class="site-lead">{profile.intro[locale]}</p>
-          <div class="site-actions">
+          <Stack direction="horizontal" gap="md" className="site-actions">
             <ButtonLink href={`/${locale}/#work`}>{ui.sections.selectedWork[locale]}</ButtonLink>
             <ButtonLink href={`/${locale}/contact/`} variant="secondary">
               {ui.sections.getInTouch[locale]}
             </ButtonLink>
-          </div>
-        </div>
-      </div>
+          </Stack>
+        </Stack>
+      </Stack>
     </Container>
   </Section>
 
   <Section tone="surface" id="work">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <h2 class="site-heading">{ui.sections.selectedWork[locale]}</h2>
           <p class="site-lead">
             {
@@ -92,18 +93,18 @@ const jsonLd = {
                 : "Product, interface, and flow projects that show my design process."
             }
           </p>
-        </div>
+        </Stack>
         <div class="site-grid site-grid--2">
           {workItems.map((entry) => <ProjectCard locale={locale} entry={entry} />)}
         </div>
-      </div>
+      </Stack>
     </Container>
   </Section>
 
   <Section tone="subtle">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <h2 class="site-heading">{ui.sections.experience[locale]}</h2>
           <p class="site-lead">
             {
@@ -112,16 +113,16 @@ const jsonLd = {
                 : "Professional and academic path in a CV-style timeline."
             }
           </p>
-        </div>
+        </Stack>
         <ExperienceList locale={locale} items={experienceItems} />
-      </div>
+      </Stack>
     </Container>
   </Section>
 
   <Section tone="surface">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <h2 class="site-heading">{ui.sections.capabilities[locale]}</h2>
           <p class="site-lead">
             {
@@ -130,16 +131,16 @@ const jsonLd = {
                 : "Areas where I work across discovery, interface, and delivery."
             }
           </p>
-        </div>
+        </Stack>
         <FeatureGrid items={featureItems} />
-      </div>
+      </Stack>
     </Container>
   </Section>
 
   <Section tone="subtle">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <h2 class="site-heading">{ui.sections.contact[locale]}</h2>
           <p class="site-lead">
             {
@@ -149,8 +150,8 @@ const jsonLd = {
             }
           </p>
           <ButtonLink href={`/${locale}/contact/`}>{ui.sections.getInTouch[locale]}</ButtonLink>
-        </div>
-      </div>
+        </Stack>
+      </Stack>
     </Container>
   </Section>
 </PageShell>

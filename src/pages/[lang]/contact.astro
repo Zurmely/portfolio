@@ -3,6 +3,7 @@ import PageShell from "@/components/PageShell.astro";
 import Container from "@/components/Container.astro";
 import Section from "@/components/Section.astro";
 import ContactLinks from "@/components/ContactLinks.astro";
+import { Stack } from "@z-ux/ui/stack";
 import type { Locale } from "@/i18n/utils";
 import { locales } from "@/i18n/utils";
 import { siteMeta, ui } from "@/data/site";
@@ -22,21 +23,21 @@ const locale = Astro.params.lang as Locale;
 >
   <Section tone="inverse">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <h1 class="site-heading site-heading--hero">{ui.contactPage.title[locale]}</h1>
           <p class="site-lead">{ui.contactPage.intro[locale]}</p>
-        </div>
-      </div>
+        </Stack>
+      </Stack>
     </Container>
   </Section>
 
   <Section tone="surface">
     <Container>
-      <div class="site-section__inner">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
         <ContactLinks locale={locale} />
         <p class="site-lead">{ui.contactPage.note[locale]}</p>
-      </div>
+      </Stack>
     </Container>
   </Section>
 </PageShell>

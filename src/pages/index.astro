@@ -3,6 +3,7 @@ import Container from "@/components/Container.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
 import SeoHead from "@/components/SeoHead.astro";
 import ThemeInit from "@/components/ThemeInit.astro";
+import { Stack } from "@z-ux/ui/stack";
 import { ui } from "@/data/site";
 import "@/styles/global.css";
 ---
@@ -32,13 +33,15 @@ import "@/styles/global.css";
   </head>
   <body class="locale-gateway">
     <Container class="locale-gateway__panel">
-      <p class="site-eyebrow">Gabriel Zurmely</p>
-      <h1 class="site-heading">{ui.localeGateway.title.pt}</h1>
-      <p class="site-lead">{ui.localeGateway.subtitle.pt}</p>
-      <div class="locale-gateway__actions">
-        <ButtonLink href="/pt/">{ui.localeGateway.continuePt}</ButtonLink>
-        <ButtonLink href="/en/" variant="secondary">{ui.localeGateway.continueEn}</ButtonLink>
-      </div>
+      <Stack direction="vertical" gap="lg">
+        <p class="site-eyebrow">Gabriel Zurmely</p>
+        <h1 class="site-heading">{ui.localeGateway.title.pt}</h1>
+        <p class="site-lead">{ui.localeGateway.subtitle.pt}</p>
+        <Stack direction="horizontal" gap="md" className="site-actions">
+          <ButtonLink href="/pt/">{ui.localeGateway.continuePt}</ButtonLink>
+          <ButtonLink href="/en/" variant="secondary">{ui.localeGateway.continueEn}</ButtonLink>
+        </Stack>
+      </Stack>
     </Container>
   </body>
 </html>

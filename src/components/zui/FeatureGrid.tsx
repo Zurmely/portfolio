@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { Layers, Lightbulb, Users } from "lucide-react";
 import { Card, CardDescription, CardHeader, CardTitle } from "@z-ux/ui/card";
+import { Stack } from "@z-ux/ui/stack";
 
 const iconMap = {
   Layers,
@@ -28,9 +29,11 @@ export default function FeatureGrid({ items }: FeatureGridProps) {
         return (
           <Card key={item.title}>
             <CardHeader>
-              <Icon className="feature-item__icon" aria-hidden="true" />
-              <CardTitle>{item.title}</CardTitle>
-              <CardDescription>{item.description}</CardDescription>
+              <Stack direction="vertical" gap="sm">
+                <Icon className="feature-item__icon" aria-hidden="true" />
+                <CardTitle>{item.title}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
+              </Stack>
             </CardHeader>
           </Card>
         );

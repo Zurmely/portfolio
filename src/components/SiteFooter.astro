@@ -1,6 +1,7 @@
 ---
 import type { Locale } from "@/i18n/utils";
 import Container from "@/components/Container.astro";
+import SiteFooterBar from "@/components/zui/SiteFooterBar";
 import { navigation, siteMeta } from "@/data/site";
 
 interface Props {
@@ -9,33 +10,19 @@ interface Props {
 
 const { locale }: Props = Astro.props;
 const year = new Date().getFullYear();
+const links = navigation.map((item) => ({
+  label: item.label[locale],
+  href: item.href[locale],
+}));
 ---
 
-<footer class="site-footer">
-  <Container>
-    <div class="site-footer__inner">
-      <div>
-        <p class="site-footer__title">{siteMeta.name}</p>
-        <p class="site-footer__description">{siteMeta.description[locale]}</p>
-      </div>
-      <nav class="site-footer__nav" aria-label={locale === "pt" ? "Rodapé" : "Footer"}>
-        {
-          navigation.map((item) => (
-            <a class="nav-link" href={item.href[locale]}>
-              {item.label[locale]}
-            </a>
-          ))
-        }
-      </nav>
-      <div class="site-footer__bottom">
-        <p class="site-footer__meta">
-          © {year}
-          {siteMeta.name}
-        </p>
-        <p class="site-footer__meta">
-          {siteMeta.location[locale]}
-        </p>
-      </div>
-    </div>
-  </Container>
-</footer>
+<Container>
+  <SiteFooterBar
+    title={siteMeta.name}
+    description={siteMeta.description[locale]}
+    navLabel={locale === "pt" ? "Rodapé" : "Footer"}
+    links={links}
+    year={year}
+    location={siteMeta.location[locale]}
+  />
+</Container>

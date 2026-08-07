@@ -1,10 +1,9 @@
 ---
 import type { Locale } from "@/i18n/utils";
-import Container from "@/components/Container.astro";
-import LocaleSwitcher from "@/components/LocaleSwitcher.astro";
-import ThemeToggle from "@/components/ThemeToggle.astro";
-import { navigation, siteMeta } from "@/data/site";
-import Icon from "@/components/Icon.astro";
+import { getAlternateLocale } from "@/i18n/utils";
+import SiteNavbar from "@/components/zui/SiteNavbar";
+import { navigation, siteMeta, ui } from "@/data/site";
+import { THEME_STORAGE_KEY } from "@/utils/theme-init";
 
 interface Props {
   locale: Locale;
@@ -12,49 +11,76 @@ interface Props {
 }
 
 const { locale, currentPath }: Props = Astro.props;
+const alternate = getAlternateLocale(locale);
+
+function buildAlternatePath(path: string, nextLocale: Locale): string {
+  const segments = path.split("/").filter(Boolean);
+  if (segments.length === 0) return `/${nextLocale}/`;
+  segments[0] = nextLocale;
+  return `/${segments.join("/")}${path.endsWith("/") ? "/" : ""}`;
+}
+
+function isCurrent(href: string): boolean {
+  if (href.includes("#")) return false;
+  const normalizedHref = href.endsWith("/") ? href : `${href}/`;
+  const normalizedPath = currentPath.endsWith("/") ? currentPath : `${currentPath}/`;
+  return normalizedPath === normalizedHref;
+}
+
+const items = navigation.map((item) => ({
+  label: item.label[locale],
+  href: item.href[locale],
+  current: isCurrent(item.href[locale]),
+}));
+
+const themeLabels = {
+  toDark: ui.themeToggle.toDark[locale],
+  toLight: ui.themeToggle.toLight[locale],
+};
 ---
 
-<header class="site-header" data-site-header>
-  <Container>
-    <div class="site-header__inner">
-      <a class="site-header__brand" href={`/${locale}/`}>{siteMeta.name}</a>
-      <nav class="site-header__nav" aria-label={locale === "pt" ? "Principal" : "Main"}>
-        {
-          navigation.map((item) => (
-            <a class="nav-link" href={item.href[locale]}>
-              {item.label[locale]}
-            </a>
-          ))
-        }
-      </nav>
-      <div class="site-header__actions">
-        <ThemeToggle locale={locale} />
-        <LocaleSwitcher locale={locale} currentPath={currentPath} />
-        <button
-          type="button"
-          class="site-header__menu-toggle"
-          data-menu-toggle
-          aria-expanded="false"
-          aria-controls="mobile-navigation"
-          aria-label={locale === "pt" ? "Abrir menu" : "Open menu"}
-        >
-          <Icon name="Menu" size={18} />
-        </button>
-      </div>
-    </div>
-    <nav
-      id="mobile-navigation"
-      class="mobile-nav"
-      data-mobile-nav
-      aria-label={locale === "pt" ? "Menu mobile" : "Mobile menu"}
-    >
-      {
-        navigation.map((item) => (
-          <a class="mobile-nav__link" href={item.href[locale]}>
-            {item.label[locale]}
-          </a>
-        ))
-      }
-    </nav>
-  </Container>
-</header>
+<div class="site-top-shell">
+  <div class="site-container">
+    <SiteNavbar
+      brand={siteMeta.name}
+      homeHref={`/${locale}/`}
+      navLabel={locale === "pt" ? "Principal" : "Main"}
+      menuLabel={locale === "pt" ? "Abrir menu" : "Open menu"}
+      items={items}
+      locale={locale}
+      alternateHref={buildAlternatePath(currentPath, alternate)}
+      themeLabels={themeLabels}
+    />
+  </div>
+</div>
+
+<script is:inline define:vars={{ storageKey: THEME_STORAGE_KEY, labels: themeLabels }}>
+  const toggle = document.querySelector("[data-theme-toggle]");
+
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  }
+
+  function updateToggle(theme) {
+    if (!toggle) return;
+    const isDark = theme === "dark";
+    toggle.setAttribute("aria-pressed", String(isDark));
+    toggle.setAttribute("aria-label", isDark ? labels.toLight : labels.toDark);
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem(storageKey, theme);
+    } catch {
+      /* no-op */
+    }
+    updateToggle(theme);
+  }
+
+  updateToggle(getCurrentTheme());
+
+  toggle?.addEventListener("click", () => {
+    setTheme(getCurrentTheme() === "dark" ? "light" : "dark");
+  });
+</script>

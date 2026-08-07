@@ -35,22 +35,32 @@ export default function ExperienceTimeline({ items }: ExperienceTimelineProps) {
               </p>
               <p>{item.summary}</p>
               {item.achievements.length > 0 ? (
-                <div className="badge-row" aria-label={item.highlightsLabel}>
+                <Stack
+                  direction="horizontal"
+                  gap="sm"
+                  className="badge-row"
+                  aria-label={item.highlightsLabel}
+                >
                   {item.achievements.map((achievement) => (
                     <Badge key={achievement} tone="neutral" size="sm">
                       {achievement}
                     </Badge>
                   ))}
-                </div>
+                </Stack>
               ) : null}
               {item.skills.length > 0 ? (
-                <div className="badge-row" aria-label={item.skillsLabel}>
+                <Stack
+                  direction="horizontal"
+                  gap="sm"
+                  className="badge-row"
+                  aria-label={item.skillsLabel}
+                >
                   {item.skills.map((skill) => (
                     <Badge key={skill} tone="primary" size="sm">
                       {skill}
                     </Badge>
                   ))}
-                </div>
+                </Stack>
               ) : null}
             </Stack>
           }

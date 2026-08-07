@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@z-ux/ui/card";
+import { Link } from "@z-ux/ui/link";
 import ButtonLink from "@/components/zui/ButtonLink";
 
 type ProjectCardProps = {
@@ -33,9 +34,9 @@ export default function ProjectCard({
         </div>
         <CardDescription>{meta}</CardDescription>
         <CardTitle>
-          <a href={href} style={{ color: "inherit", textDecoration: "none" }}>
+          <Link href={href} className="project-card__title-link">
             {title}
-          </a>
+          </Link>
         </CardTitle>
       </CardHeader>
       <CardContent>

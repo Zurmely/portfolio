@@ -3,6 +3,7 @@ import PageShell from "@/components/PageShell.astro";
 import Container from "@/components/Container.astro";
 import Section from "@/components/Section.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
+import { Stack } from "@z-ux/ui/stack";
 import { ui } from "@/data/site";
 ---
 
@@ -14,16 +15,16 @@ import { ui } from "@/data/site";
 >
   <Section tone="inverse">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <h1 class="site-heading site-heading--hero">{ui.sections.notFoundTitle.pt}</h1>
           <p class="site-lead">{ui.sections.notFoundBody.pt}</p>
-          <div class="locale-gateway__actions">
+          <Stack direction="horizontal" gap="md" className="site-actions">
             <ButtonLink href="/pt/">{ui.sections.returnHome.pt}</ButtonLink>
             <ButtonLink href="/en/" variant="secondary">English home</ButtonLink>
-          </div>
-        </div>
-      </div>
+          </Stack>
+        </Stack>
+      </Stack>
     </Container>
   </Section>
 </PageShell>

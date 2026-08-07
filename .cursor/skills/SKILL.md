@@ -49,6 +49,10 @@ Hero, header shell, and footer use inverse tone.
 
 | Portfolio need | Z-UI component |
 |----------------|----------------|
+| Site header | `Navbar`, `NavbarLogo`, `NavbarContent`, `NavbarItem`, `IconButton`, `Link`, `Stack` |
+| Site footer | `Stack`, `Link`, `Separator` |
+| Theme toggle | `IconButton` + framework-free script |
+| Locale switcher | `Link`, `Stack`, `Separator` |
 | CTAs | `Button` + `Link` (`asChild`) |
 | Text links | `Link` |
 | Cards | `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` |

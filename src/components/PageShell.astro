@@ -35,13 +35,13 @@ const { locale, title, description, path, pageType = "website", jsonLd }: Props 
     <a class="sr-only" href="#main-content">
       {locale === "pt" ? "Ir para o conteúdo" : "Skip to content"}
     </a>
-    <div class="site-top-shell">
-      <SiteHeader locale={locale} currentPath={path} />
-    </div>
+    <SiteHeader locale={locale} currentPath={path} />
     <main id="main-content">
       <slot />
     </main>
-    <SiteFooter locale={locale} />
+    <div class="site-footer-shell">
+      <SiteFooter locale={locale} />
+    </div>
   </body>
 </html>
 
@@ -56,9 +56,3 @@ const { locale, title, description, path, pageType = "website", jsonLd }: Props 
     header?.classList.toggle("is-menu-open", Boolean(isOpen));
   });
 </script>
-
-<style>
-  [data-site-header].is-menu-open {
-    background: var(--z-color-background-inverse);
-  }
-</style>

@@ -7,6 +7,7 @@ import ButtonLink from "@/components/ButtonLink.astro";
 import TextLink from "@/components/TextLink.astro";
 import ResponsiveImage from "@/components/ResponsiveImage.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
+import { Stack } from "@z-ux/ui/stack";
 import { getCollection, render } from "astro:content";
 import type { Locale } from "@/i18n/utils";
 import { siteMeta, ui } from "@/data/site";
@@ -70,7 +71,7 @@ const jsonLd = {
 >
   <Section tone="inverse">
     <Container>
-      <div class="site-section__inner case-study__hero">
+      <Stack direction="vertical" gap="lg" className="site-section__inner case-study__hero">
         <Breadcrumb
           label={locale === "pt" ? "Navegação estrutural" : "Breadcrumb"}
           items={[
@@ -79,11 +80,11 @@ const jsonLd = {
             { label: entry.data.title },
           ]}
         />
-        <div class="site-section__header">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <p class="site-eyebrow">{entry.data.client ?? entry.data.context}</p>
           <h1 class="site-heading site-heading--hero">{entry.data.title}</h1>
           <p class="site-lead">{entry.data.summary}</p>
-        </div>
+        </Stack>
         <ResponsiveImage
           src={entry.data.heroImage?.src}
           alt={entry.data.heroImage?.alt ?? entry.data.title}
@@ -91,56 +92,56 @@ const jsonLd = {
             ? "Imagem principal placeholder"
             : "Main image placeholder"}
         />
-      </div>
+      </Stack>
     </Container>
   </Section>
 
   <Section tone="surface">
     <Container>
-      <div class="site-section__inner">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
         <div class="case-study__meta-grid">
-          <div class="case-study__meta-item">
+          <Stack direction="vertical" gap="sm" className="case-study__meta-item">
             <p class="case-study__meta-label">{ui.workMeta.role[locale]}</p>
             <p class="case-study__meta-value">{entry.data.role}</p>
-          </div>
+          </Stack>
           {
             entry.data.client ? (
-              <div class="case-study__meta-item">
+              <Stack direction="vertical" gap="sm" className="case-study__meta-item">
                 <p class="case-study__meta-label">{ui.workMeta.client[locale]}</p>
                 <p class="case-study__meta-value">{entry.data.client}</p>
-              </div>
+              </Stack>
             ) : null
           }
           {
             entry.data.context ? (
-              <div class="case-study__meta-item">
+              <Stack direction="vertical" gap="sm" className="case-study__meta-item">
                 <p class="case-study__meta-label">{ui.workMeta.context[locale]}</p>
                 <p class="case-study__meta-value">{entry.data.context}</p>
-              </div>
+              </Stack>
             ) : null
           }
           {
             entry.data.duration ? (
-              <div class="case-study__meta-item">
+              <Stack direction="vertical" gap="sm" className="case-study__meta-item">
                 <p class="case-study__meta-label">{ui.workMeta.duration[locale]}</p>
                 <p class="case-study__meta-value">{entry.data.duration}</p>
-              </div>
+              </Stack>
             ) : null
           }
           {
             entry.data.tools.length > 0 ? (
-              <div class="case-study__meta-item">
+              <Stack direction="vertical" gap="sm" className="case-study__meta-item">
                 <p class="case-study__meta-label">{ui.workMeta.tools[locale]}</p>
                 <p class="case-study__meta-value">{entry.data.tools.join(", ")}</p>
-              </div>
+              </Stack>
             ) : null
           }
           {
             entry.data.disciplines.length > 0 ? (
-              <div class="case-study__meta-item">
+              <Stack direction="vertical" gap="sm" className="case-study__meta-item">
                 <p class="case-study__meta-label">{ui.workMeta.disciplines[locale]}</p>
                 <p class="case-study__meta-value">{entry.data.disciplines.join(", ")}</p>
-              </div>
+              </Stack>
             ) : null
           }
         </div>
@@ -149,16 +150,16 @@ const jsonLd = {
         </article>
         {
           entry.data.externalLinks.length > 0 ? (
-            <div class="site-actions">
+            <Stack direction="horizontal" gap="md" className="site-actions">
               {entry.data.externalLinks.map((link) => (
                 <TextLink href={link.url} external>
                   {link.label}
                 </TextLink>
               ))}
-            </div>
+            </Stack>
           ) : null
         }
-      </div>
+      </Stack>
     </Container>
   </Section>
 
@@ -166,13 +167,13 @@ const jsonLd = {
     entry.data.gallery.length > 0 ? (
       <Section tone="subtle">
         <Container>
-          <div class="site-section__inner">
+          <Stack direction="vertical" gap="lg" className="site-section__inner">
             <div class="site-grid site-grid--2">
               {entry.data.gallery.map((image) => (
                 <ResponsiveImage src={image.src} alt={image.alt} caption={image.caption} />
               ))}
             </div>
-          </div>
+          </Stack>
         </Container>
       </Section>
     ) : null
@@ -182,16 +183,16 @@ const jsonLd = {
     related.length > 0 ? (
       <Section tone="surface">
         <Container>
-          <div class="site-section__inner">
-            <div class="site-section__header">
+          <Stack direction="vertical" gap="lg" className="site-section__inner">
+            <Stack direction="vertical" gap="md" className="site-section__header">
               <h2 class="site-heading">{ui.sections.relatedWork[locale]}</h2>
-            </div>
+            </Stack>
             <div class="site-grid site-grid--2">
               {related.map((item) => (
                 <ProjectCard locale={locale} entry={item} />
               ))}
             </div>
-          </div>
+          </Stack>
         </Container>
       </Section>
     ) : null
@@ -199,8 +200,8 @@ const jsonLd = {
 
   <Section tone="subtle">
     <Container>
-      <div class="site-section__inner">
-        <div class="site-section__header">
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
           <h2 class="site-heading">{ui.sections.contact[locale]}</h2>
           <p class="site-lead">
             {
@@ -209,14 +210,14 @@ const jsonLd = {
                 : "Want to know more about this project or discuss a new challenge?"
             }
           </p>
-          <div class="site-actions">
+          <Stack direction="horizontal" gap="md" className="site-actions">
             <ButtonLink href={`/${locale}/contact/`}>{ui.sections.getInTouch[locale]}</ButtonLink>
             <ButtonLink href={`/${locale}/#work`} variant="secondary">
               {ui.sections.backToWork[locale]}
             </ButtonLink>
-          </div>
-        </div>
-      </div>
+          </Stack>
+        </Stack>
+      </Stack>
     </Container>
   </Section>
 </PageShell>
