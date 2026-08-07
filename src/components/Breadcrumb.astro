@@ -1,4 +1,6 @@
 ---
+import BreadcrumbsNav from "@/components/zui/BreadcrumbsNav";
+
 interface Crumb {
   label: string;
   href?: string;
@@ -6,24 +8,10 @@ interface Crumb {
 
 interface Props {
   items: Crumb[];
+  label?: string;
 }
 
-const { items }: Props = Astro.props;
+const { items, label }: Props = Astro.props;
 ---
 
-<nav class="breadcrumb" aria-label="Breadcrumb">
-  {
-    items.map((item, index) => (
-      <>
-        {item.href ? (
-          <a class="breadcrumb__link" href={item.href}>
-            {item.label}
-          </a>
-        ) : (
-          <span aria-current="page">{item.label}</span>
-        )}
-        {index < items.length - 1 ? <span aria-hidden="true">/</span> : null}
-      </>
-    ))
-  }
-</nav>
+<BreadcrumbsNav items={items} label={label} />

@@ -11,19 +11,12 @@ const { locale }: Props = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer" data-surface="dark">
-  <Container dark>
+<footer class="site-footer">
+  <Container>
     <div class="site-footer__inner">
       <div>
-        <p
-          class="section__title"
-          style="font-size: var(--font-size-3xl); margin-bottom: var(--spacing-4);"
-        >
-          {siteMeta.name}
-        </p>
-        <p class="hero__lead" style="margin: 0;">
-          {siteMeta.description[locale]}
-        </p>
+        <p class="site-footer__title">{siteMeta.name}</p>
+        <p class="site-footer__description">{siteMeta.description[locale]}</p>
       </div>
       <nav class="site-footer__nav" aria-label={locale === "pt" ? "Rodapé" : "Footer"}>
         {
@@ -35,11 +28,11 @@ const year = new Date().getFullYear();
         }
       </nav>
       <div class="site-footer__bottom">
-        <p class="site-footer__bottom-meta">
+        <p class="site-footer__meta">
           © {year}
           {siteMeta.name}
         </p>
-        <p class="site-footer__bottom-meta site-footer__bottom-meta--muted">
+        <p class="site-footer__meta">
           {siteMeta.location[locale]}
         </p>
       </div>

@@ -1,19 +1,23 @@
 ---
+import ZButtonLink from "@/components/zui/ButtonLink";
+
 interface Props {
   href: string;
-  small?: boolean;
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
   external?: boolean;
   class?: string;
 }
 
-const { href, small = false, external = false, class: className = "" }: Props = Astro.props;
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  external = false,
+  class: className,
+}: Props = Astro.props;
 ---
 
-<a
-  class:list={["button", { "button--small": small }, className]}
-  href={href}
-  target={external ? "_blank" : undefined}
-  rel={external ? "noreferrer noopener" : undefined}
->
+<ZButtonLink href={href} variant={variant} size={size} external={external} className={className}>
   <slot />
-</a>
+</ZButtonLink>

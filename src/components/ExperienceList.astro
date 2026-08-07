@@ -1,5 +1,6 @@
 ---
 import type { Locale } from "@/i18n/utils";
+import ExperienceTimeline from "@/components/zui/ExperienceTimeline";
 import { ui } from "@/data/site";
 import { formatDateRange } from "@/utils/content";
 
@@ -21,47 +22,25 @@ interface Props {
 }
 
 const { locale, items }: Props = Astro.props;
+
+const timelineItems = items.map((item) => ({
+  role: item.data.role,
+  organization: item.data.organization,
+  location: item.data.location,
+  dates: formatDateRange(
+    item.data.startDate,
+    item.data.endDate,
+    locale,
+    ui.sections.present[locale],
+    item.data.current,
+  ),
+  currentLabel: item.data.current ? ui.sections.currentRole[locale] : undefined,
+  summary: item.data.summary,
+  achievements: item.data.achievements,
+  skills: item.data.skills,
+  highlightsLabel: locale === "pt" ? "Destaques" : "Highlights",
+  skillsLabel: locale === "pt" ? "Competências" : "Skills",
+}));
 ---
 
-<div class="experience-list">
-  {
-    items.map((item) => (
-      <article class="experience-item">
-        <div class="experience-item__header">
-          <div>
-            <h3 class="experience-item__role">{item.data.role}</h3>
-            <p class="experience-item__org">
-              {item.data.organization}
-              {item.data.location ? ` · ${item.data.location}` : ""}
-            </p>
-          </div>
-          <p class="experience-item__dates">
-            {formatDateRange(
-              item.data.startDate,
-              item.data.endDate,
-              locale,
-              ui.sections.present[locale],
-              item.data.current,
-            )}
-            {item.data.current ? ` · ${ui.sections.currentRole[locale]}` : ""}
-          </p>
-        </div>
-        <p class="experience-item__summary">{item.data.summary}</p>
-        {item.data.achievements.length > 0 ? (
-          <ul class="badge-list" aria-label={locale === "pt" ? "Destaques" : "Highlights"}>
-            {item.data.achievements.map((achievement) => (
-              <li class="badge">{achievement}</li>
-            ))}
-          </ul>
-        ) : null}
-        {item.data.skills.length > 0 ? (
-          <ul class="badge-list" aria-label={locale === "pt" ? "Competências" : "Skills"}>
-            {item.data.skills.map((skill) => (
-              <li class="badge">{skill}</li>
-            ))}
-          </ul>
-        ) : null}
-      </article>
-    ))
-  }
-</div>
+<ExperienceTimeline items={timelineItems} />

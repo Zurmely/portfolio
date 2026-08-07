@@ -1,6 +1,6 @@
 ---
 import type { Locale } from "@/i18n/utils";
-import Icon from "@/components/Icon.astro";
+import ContactLinksList from "@/components/zui/ContactLinksList";
 import { contactLinks, isRenderableLink, resolveLinkHref } from "@/data/site";
 
 interface Props {
@@ -8,26 +8,18 @@ interface Props {
 }
 
 const { locale }: Props = Astro.props;
-const links = contactLinks.filter(isRenderableLink);
+const links = contactLinks.filter(isRenderableLink).map((link) => ({
+  label: link.label[locale],
+  href: resolveLinkHref(link),
+  external: link.external,
+}));
 ---
 
 {
   links.length > 0 ? (
-    <div class="contact-links">
-      {links.map((link) => (
-        <a
-          class="contact-link"
-          href={resolveLinkHref(link)}
-          target={link.external ? "_blank" : undefined}
-          rel={link.external ? "noreferrer noopener" : undefined}
-        >
-          <span>{link.label[locale]}</span>
-          <Icon name={link.email ? "Mail" : "ArrowUpRight"} size={18} />
-        </a>
-      ))}
-    </div>
+    <ContactLinksList links={links} />
   ) : (
-    <p class="card__body">
+    <p class="site-lead">
       {locale === "pt"
         ? "TODO_CONTENT: adicione e-mail e links sociais em src/data/site.ts."
         : "TODO_CONTENT: add email and social links in src/data/site.ts."}

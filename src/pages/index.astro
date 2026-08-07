@@ -30,17 +30,23 @@ import "@/styles/global.css";
       })();
     </script>
   </head>
-  <body class="locale-gateway" data-surface="dark">
-    <Container dark class="locale-gateway__panel">
-      <p class="section__eyebrow">Gabriel Zurmely</p>
-      <h1 class="hero__title" style="font-size: var(--font-size-5xl);">
-        {ui.localeGateway.title.pt}
-      </h1>
-      <p class="hero__lead">{ui.localeGateway.subtitle.pt}</p>
+  <body class="locale-gateway">
+    <Container class="locale-gateway__panel">
+      <p class="site-eyebrow">Gabriel Zurmely</p>
+      <h1 class="site-heading">{ui.localeGateway.title.pt}</h1>
+      <p class="site-lead">{ui.localeGateway.subtitle.pt}</p>
       <div class="locale-gateway__actions">
         <ButtonLink href="/pt/">{ui.localeGateway.continuePt}</ButtonLink>
-        <ButtonLink href="/en/">{ui.localeGateway.continueEn}</ButtonLink>
+        <ButtonLink href="/en/" variant="secondary">{ui.localeGateway.continueEn}</ButtonLink>
       </div>
     </Container>
   </body>
 </html>
+
+<style>
+  .locale-gateway .site-eyebrow,
+  .locale-gateway .site-heading,
+  .locale-gateway .site-lead {
+    color: var(--z-color-text-inverse);
+  }
+</style>

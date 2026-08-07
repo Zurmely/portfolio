@@ -5,7 +5,7 @@ import Section from "@/components/Section.astro";
 import ButtonLink from "@/components/ButtonLink.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import ExperienceList from "@/components/ExperienceList.astro";
-import Icon from "@/components/Icon.astro";
+import FeatureGrid from "@/components/zui/FeatureGrid";
 import { getCollection } from "astro:content";
 import type { Locale } from "@/i18n/utils";
 import { locales } from "@/i18n/utils";
@@ -29,6 +29,13 @@ const workItems = sortByOrder(
 const experienceItems = sortByDateDesc(
   await getCollection("experience", ({ data }) => data.locale === locale && !data.draft),
 );
+
+const featureIcons = ["Layers", "Lightbulb", "Users"] as const;
+const featureItems = profile.capabilities[locale].map((item, index) => ({
+  title: item.title,
+  description: item.description,
+  icon: featureIcons[index] ?? "Layers",
+}));
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -55,28 +62,30 @@ const jsonLd = {
   path={`/${locale}/`}
   jsonLd={jsonLd}
 >
-  <Section surface="dark">
-    <Container dark>
-      <div class="section__inner">
-        <div class="section__header">
-          <p class="section__eyebrow">{siteMeta.name}</p>
-          <h1 class="hero__title">{profile.headline[locale]}</h1>
-          <p class="hero__lead">{profile.intro[locale]}</p>
-          <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-4);">
+  <Section tone="inverse">
+    <Container>
+      <div class="site-section__inner">
+        <div class="site-section__header">
+          <p class="site-eyebrow">{siteMeta.name}</p>
+          <h1 class="site-heading site-heading--hero">{profile.headline[locale]}</h1>
+          <p class="site-lead">{profile.intro[locale]}</p>
+          <div class="site-actions">
             <ButtonLink href={`/${locale}/#work`}>{ui.sections.selectedWork[locale]}</ButtonLink>
-            <ButtonLink href={`/${locale}/contact/`}>{ui.sections.getInTouch[locale]}</ButtonLink>
+            <ButtonLink href={`/${locale}/contact/`} variant="secondary">
+              {ui.sections.getInTouch[locale]}
+            </ButtonLink>
           </div>
         </div>
       </div>
     </Container>
   </Section>
 
-  <Section surface="greige-a" id="work">
+  <Section tone="surface" id="work">
     <Container>
-      <div class="section__inner">
-        <div class="section__header">
-          <h2 class="section__title">{ui.sections.selectedWork[locale]}</h2>
-          <p class="section__lead">
+      <div class="site-section__inner">
+        <div class="site-section__header">
+          <h2 class="site-heading">{ui.sections.selectedWork[locale]}</h2>
+          <p class="site-lead">
             {
               locale === "pt"
                 ? "Projetos de produto, interfaces e fluxos que mostram meu processo de design."
@@ -84,19 +93,19 @@ const jsonLd = {
             }
           </p>
         </div>
-        <div class="work-grid">
+        <div class="site-grid site-grid--2">
           {workItems.map((entry) => <ProjectCard locale={locale} entry={entry} />)}
         </div>
       </div>
     </Container>
   </Section>
 
-  <Section surface="greige-b">
+  <Section tone="subtle">
     <Container>
-      <div class="section__inner">
-        <div class="section__header">
-          <h2 class="section__title">{ui.sections.experience[locale]}</h2>
-          <p class="section__lead">
+      <div class="site-section__inner">
+        <div class="site-section__header">
+          <h2 class="site-heading">{ui.sections.experience[locale]}</h2>
+          <p class="site-lead">
             {
               locale === "pt"
                 ? "Trajetória profissional e acadêmica em formato de currículo."
@@ -109,12 +118,12 @@ const jsonLd = {
     </Container>
   </Section>
 
-  <Section surface="greige-a">
+  <Section tone="surface">
     <Container>
-      <div class="section__inner">
-        <div class="section__header">
-          <h2 class="section__title">{ui.sections.capabilities[locale]}</h2>
-          <p class="section__lead">
+      <div class="site-section__inner">
+        <div class="site-section__header">
+          <h2 class="site-heading">{ui.sections.capabilities[locale]}</h2>
+          <p class="site-lead">
             {
               locale === "pt"
                 ? "Áreas em que atuo entre descoberta, interface e entrega."
@@ -122,27 +131,17 @@ const jsonLd = {
             }
           </p>
         </div>
-        <div class="feature-grid">
-          {
-            profile.capabilities[locale].map((item) => (
-              <article class="feature-item card">
-                <Icon name="Layers" size={32} class="feature-item__icon" />
-                <h3 class="feature-item__title">{item.title}</h3>
-                <p class="feature-item__body">{item.description}</p>
-              </article>
-            ))
-          }
-        </div>
+        <FeatureGrid items={featureItems} />
       </div>
     </Container>
   </Section>
 
-  <Section surface="greige-b">
+  <Section tone="subtle">
     <Container>
-      <div class="section__inner">
-        <div class="section__header">
-          <h2 class="section__title">{ui.sections.contact[locale]}</h2>
-          <p class="section__lead">
+      <div class="site-section__inner">
+        <div class="site-section__header">
+          <h2 class="site-heading">{ui.sections.contact[locale]}</h2>
+          <p class="site-lead">
             {
               locale === "pt"
                 ? "Aberto a conversas sobre design, produto e colaboração."

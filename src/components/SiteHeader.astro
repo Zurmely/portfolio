@@ -15,7 +15,7 @@ const { locale, currentPath }: Props = Astro.props;
 ---
 
 <header class="site-header" data-site-header>
-  <Container dark>
+  <Container>
     <div class="site-header__inner">
       <a class="site-header__brand" href={`/${locale}/`}>{siteMeta.name}</a>
       <nav class="site-header__nav" aria-label={locale === "pt" ? "Principal" : "Main"}>

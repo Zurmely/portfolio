@@ -1,17 +1,22 @@
 ---
 interface Props {
-  surface?: "dark" | "greige-a" | "greige-b";
+  tone?: "default" | "surface" | "subtle" | "inverse";
   id?: string;
   class?: string;
 }
 
-const { surface = "greige-a", id, class: className = "" }: Props = Astro.props;
+const { tone = "default", id, class: className = "" }: Props = Astro.props;
+
+const toneClass =
+  tone === "inverse"
+    ? "site-section--inverse"
+    : tone === "surface"
+      ? "site-section--surface"
+      : tone === "subtle"
+        ? "site-section--subtle"
+        : "";
 ---
 
-<section
-  id={id}
-  class:list={["section", { "section--dark": surface === "dark" }, className]}
-  data-surface={surface}
->
+<section id={id} class:list={["site-section", toneClass, className]}>
   <slot />
 </section>

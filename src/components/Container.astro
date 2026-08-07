@@ -1,12 +1,11 @@
 ---
 interface Props {
-  dark?: boolean;
   class?: string;
 }
 
-const { dark = false, class: className = "" }: Props = Astro.props;
+const { class: className = "" }: Props = Astro.props;
 ---
 
-<div class:list={["page-container", { "page-container--dark": dark }, className]}>
+<div class:list={["site-container", className]}>
   <slot />
 </div>

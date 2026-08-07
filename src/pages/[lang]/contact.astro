@@ -20,24 +20,22 @@ const locale = Astro.params.lang as Locale;
   description={ui.contactPage.intro[locale]}
   path={`/${locale}/contact/`}
 >
-  <Section surface="dark">
-    <Container dark>
-      <div class="section__inner">
-        <div class="section__header">
-          <h1 class="hero__title" style="font-size: var(--font-size-7xl);">
-            {ui.contactPage.title[locale]}
-          </h1>
-          <p class="hero__lead">{ui.contactPage.intro[locale]}</p>
+  <Section tone="inverse">
+    <Container>
+      <div class="site-section__inner">
+        <div class="site-section__header">
+          <h1 class="site-heading site-heading--hero">{ui.contactPage.title[locale]}</h1>
+          <p class="site-lead">{ui.contactPage.intro[locale]}</p>
         </div>
       </div>
     </Container>
   </Section>
 
-  <Section surface="greige-a">
+  <Section tone="surface">
     <Container>
-      <div class="section__inner">
+      <div class="site-section__inner">
         <ContactLinks locale={locale} />
-        <p class="section__lead">{ui.contactPage.note[locale]}</p>
+        <p class="site-lead">{ui.contactPage.note[locale]}</p>
       </div>
     </Container>
   </Section>

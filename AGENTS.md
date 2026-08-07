@@ -16,45 +16,48 @@ Do not leave finished work only on the local machine. Deploy happens from `maste
 
 Bilingual (PT/EN) static portfolio for Gabriel Zurmely.
 
-- **Stack:** Astro 5, TypeScript, content collections, Lucide icons
+- **Stack:** Astro 5, TypeScript, `@z-ux/tokens`, `@z-ux/ui` (React 19, SSR only), Lucide icons
 - **Output:** fully static (`output: "static"`), trailing slashes always
 - **Domain:** `https://zurmely.com` (GitHub Pages + custom domain via `public/CNAME`)
 - **Default branch:** `master`
 
 ## Design system (non-negotiable)
 
-Visual rules live in [`.cursor/skills/`](.cursor/skills/). Read the relevant modules before changing UI.
+Visual rules use the published Z-UI packages. Read component docs in the upstream repo before changing UI.
 
-- Canonical entry: [`.cursor/skills/SKILL.md`](.cursor/skills/SKILL.md)
-- Foundations: `colors.md`, `typography.md`, `spacing.md`, `radius.md`, `shadows.md`, `sections.md`
-- Implemented tokens: [`src/styles/tokens/`](src/styles/tokens/) + [`src/styles/global.css`](src/styles/global.css)
+- Tokens: `@z-ux/tokens` (`colors.css`, `sizes.css`, `text.css`, `motion.css`, `elevation.css`)
+- Components: `@z-ux/ui` per-component imports where possible
+- Site composition layer: [`src/styles/global.css`](src/styles/global.css) and [`src/styles/site-text.css`](src/styles/site-text.css)
+- Consumer guide: [`.cursor/skills/SKILL.md`](.cursor/skills/SKILL.md)
 
-Atlas signature: dark hero/footer (`#161616`), alternating greige content sections, teal brand only for links/focus/accents (never section fills or primary button fills).
+Use semantic `--z-*` tokens only. Do not reintroduce Atlas-specific surfaces, greige alternation, or one-off hex values.
 
 ### Theme model
 
 - `data-theme="light" | "dark"` on `<html>`
-- **Dark surfaces stay dark** in both themes (hero, header shell, footer, `surface-dark`)
-- **Light surfaces remap** in dark mode (greige neutrals, raised fills, body/heading text, soft borders)
 - Bootstrap: [`src/utils/theme-init.ts`](src/utils/theme-init.ts) + [`ThemeInit.astro`](src/components/ThemeInit.astro)
-- Toggle: [`ThemeToggle.astro`](src/components/ThemeToggle.astro) in the site header
+- Toggle: [`ThemeToggle.astro`](src/components/ThemeToggle.astro) in the site header (framework-free script)
 - Preference: `localStorage.theme`, else `prefers-color-scheme`
 
-Do not invert hero/footer to light in light mode. Do not invent one-off hex in components; use semantic tokens.
+### React usage
+
+- Add `@astrojs/react` for SSR of Z-UI components only.
+- Do **not** add `client:*` directives on portfolio pages unless a future feature truly needs hydration.
+- Keep theme, locale gateway redirect, and mobile nav as tiny inline scripts.
 
 ## Layout and routing
 
-| Path | Role |
-|------|------|
-| `/` | Locale gateway ([`src/pages/index.astro`](src/pages/index.astro)); optional EN redirect |
-| `/pt/`, `/en/` | Homepages |
-| `/pt/contact/`, `/en/contact/` | Contact |
-| `/pt/work/<slug>/`, `/en/work/<slug>/` | Case studies |
-| `404` | Not found |
+| Path                                   | Role                                                                                    |
+| -------------------------------------- | --------------------------------------------------------------------------------------- |
+| `/`                                    | Locale gateway ([`src/pages/index.astro`](src/pages/index.astro)); optional EN redirect |
+| `/pt/`, `/en/`                         | Homepages                                                                               |
+| `/pt/contact/`, `/en/contact/`         | Contact                                                                                 |
+| `/pt/work/<slug>/`, `/en/work/<slug>/` | Case studies                                                                            |
+| `404`                                  | Not found                                                                               |
 
 Shared chrome: [`PageShell.astro`](src/components/PageShell.astro) (header + footer + SEO + theme init). The locale gateway does **not** use PageShell; it still loads `ThemeInit` and global CSS.
 
-Sections use `data-surface="dark" | "greige-a" | "greige-b"` via [`Section.astro`](src/components/Section.astro).
+Sections use tone classes via [`Section.astro`](src/components/Section.astro): `default`, `surface`, `subtle`, `inverse`.
 
 ## Content and copy
 
@@ -64,18 +67,16 @@ Sections use `data-surface="dark" | "greige-a" | "greige-b"` via [`Section.astro
 - Schema: [`src/content.config.ts`](src/content.config.ts)
 - Helpers: [`src/utils/content.ts`](src/utils/content.ts), [`src/i18n/utils.ts`](src/i18n/utils.ts)
 
-`TODO_CONTENT` placeholders hide unfinished contact links automatically. Prefer filling real content over leaving placeholders when the user provides it.
+`TODO_CONTENT` placeholders hide unfinished contact links automatically.
 
-UI copy: no em dashes or en dashes in user-facing strings (Atlas rule).
+UI copy: no em dashes or en dashes in user-facing strings.
 
 ## How to change things safely
 
-1. **UI / visual work:** read the matching `.cursor/skills/*.md` modules first, then edit tokens/components.
-2. **New page chrome:** prefer composing existing components (`Section`, `Container`, `ButtonLink`, `PageShell`) over one-off markup.
-3. **Colors:** edit [`src/styles/tokens/colors.css`](src/styles/tokens/colors.css) and keep [`.cursor/skills/colors.md`](.cursor/skills/colors.md) in sync when registries change.
-4. **Hardcoded hex in CSS/components:** avoid; use tokens (especially for theme-aware surfaces).
-5. **Icons:** Lucide via [`Icon.astro`](src/components/Icon.astro), outline style only.
-6. **Scope:** change only what the task needs; do not drive-by refactor unrelated files.
+1. **UI work:** prefer `@z-ux/ui` components and semantic tokens before custom CSS.
+2. **New page chrome:** compose `Section`, `Container`, Z-UI adapters in `src/components/zui/`, and `PageShell`.
+3. **Icons:** Lucide via [`Icon.astro`](src/components/Icon.astro), outline style only.
+4. **Scope:** change only what the task needs.
 
 ## Commands
 
@@ -107,17 +108,16 @@ Do not commit `node_modules/`, `dist/`, `.astro/`, or `test-results/`.
 - Never use interactive git flags (`-i`).
 - Prefer HEREDOC commit messages focused on why.
 - After a successful commit for a completed task: **push**.
-- If the user asks to “push all”, stage, commit (if needed), and push everything that belongs in the repo (not secrets).
 
 ## Quick map
 
 ```text
-.cursor/skills/     Atlas design-system specs (read before UI work)
-src/components/     Astro UI primitives + ThemeToggle / ThemeInit
+.cursor/skills/     Z-UI consumer guide
+src/components/     Astro shell + zui React adapters
 src/content/        work + experience collections
 src/data/site.ts    profile, nav, i18n UI strings
 src/pages/          routes
-src/styles/         tokens + global.css
+src/styles/         Z-UI imports + site composition CSS
 src/utils/          content + theme-init helpers
 tests/              unit + e2e
 public/             static assets, CNAME, robots

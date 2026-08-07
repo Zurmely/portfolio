@@ -68,20 +68,21 @@ const jsonLd = {
   pageType="article"
   jsonLd={jsonLd}
 >
-  <Section surface="dark">
-    <Container dark>
-      <div class="section__inner case-study__hero">
+  <Section tone="inverse">
+    <Container>
+      <div class="site-section__inner case-study__hero">
         <Breadcrumb
+          label={locale === "pt" ? "Navegação estrutural" : "Breadcrumb"}
           items={[
             { label: locale === "pt" ? "Início" : "Home", href: `/${locale}/` },
             { label: ui.sections.selectedWork[locale], href: `/${locale}/#work` },
             { label: entry.data.title },
           ]}
         />
-        <div class="section__header">
-          <p class="section__eyebrow">{entry.data.client ?? entry.data.context}</p>
-          <h1 class="hero__title" style="font-size: var(--font-size-7xl);">{entry.data.title}</h1>
-          <p class="hero__lead">{entry.data.summary}</p>
+        <div class="site-section__header">
+          <p class="site-eyebrow">{entry.data.client ?? entry.data.context}</p>
+          <h1 class="site-heading site-heading--hero">{entry.data.title}</h1>
+          <p class="site-lead">{entry.data.summary}</p>
         </div>
         <ResponsiveImage
           src={entry.data.heroImage?.src}
@@ -94,9 +95,9 @@ const jsonLd = {
     </Container>
   </Section>
 
-  <Section surface="greige-a">
+  <Section tone="surface">
     <Container>
-      <div class="section__inner">
+      <div class="site-section__inner">
         <div class="case-study__meta-grid">
           <div class="case-study__meta-item">
             <p class="case-study__meta-label">{ui.workMeta.role[locale]}</p>
@@ -148,7 +149,7 @@ const jsonLd = {
         </article>
         {
           entry.data.externalLinks.length > 0 ? (
-            <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-4);">
+            <div class="site-actions">
               {entry.data.externalLinks.map((link) => (
                 <TextLink href={link.url} external>
                   {link.label}
@@ -163,10 +164,10 @@ const jsonLd = {
 
   {
     entry.data.gallery.length > 0 ? (
-      <Section surface="greige-b">
+      <Section tone="subtle">
         <Container>
-          <div class="section__inner">
-            <div class="work-grid">
+          <div class="site-section__inner">
+            <div class="site-grid site-grid--2">
               {entry.data.gallery.map((image) => (
                 <ResponsiveImage src={image.src} alt={image.alt} caption={image.caption} />
               ))}
@@ -179,13 +180,13 @@ const jsonLd = {
 
   {
     related.length > 0 ? (
-      <Section surface="greige-a">
+      <Section tone="surface">
         <Container>
-          <div class="section__inner">
-            <div class="section__header">
-              <h2 class="section__title">{ui.sections.relatedWork[locale]}</h2>
+          <div class="site-section__inner">
+            <div class="site-section__header">
+              <h2 class="site-heading">{ui.sections.relatedWork[locale]}</h2>
             </div>
-            <div class="work-grid">
+            <div class="site-grid site-grid--2">
               {related.map((item) => (
                 <ProjectCard locale={locale} entry={item} />
               ))}
@@ -196,21 +197,23 @@ const jsonLd = {
     ) : null
   }
 
-  <Section surface="greige-b">
+  <Section tone="subtle">
     <Container>
-      <div class="section__inner">
-        <div class="section__header">
-          <h2 class="section__title">{ui.sections.contact[locale]}</h2>
-          <p class="section__lead">
+      <div class="site-section__inner">
+        <div class="site-section__header">
+          <h2 class="site-heading">{ui.sections.contact[locale]}</h2>
+          <p class="site-lead">
             {
               locale === "pt"
                 ? "Quer saber mais sobre este projeto ou conversar sobre um novo desafio?"
                 : "Want to know more about this project or discuss a new challenge?"
             }
           </p>
-          <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-4);">
+          <div class="site-actions">
             <ButtonLink href={`/${locale}/contact/`}>{ui.sections.getInTouch[locale]}</ButtonLink>
-            <ButtonLink href={`/${locale}/#work`}>{ui.sections.backToWork[locale]}</ButtonLink>
+            <ButtonLink href={`/${locale}/#work`} variant="secondary">
+              {ui.sections.backToWork[locale]}
+            </ButtonLink>
           </div>
         </div>
       </div>
