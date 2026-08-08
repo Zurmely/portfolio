@@ -83,9 +83,14 @@ export const profile = {
 
 export const navigation: NavItem[] = [
   {
-    id: "home",
-    label: { pt: "Início", en: "Home" },
-    href: { pt: "/pt/", en: "/en/" },
+    id: "about",
+    label: { pt: "Sobre", en: "About" },
+    href: { pt: "/pt/#about", en: "/en/#about" },
+  },
+  {
+    id: "experience",
+    label: { pt: "Experiência", en: "Experience" },
+    href: { pt: "/pt/#experience", en: "/en/#experience" },
   },
   {
     id: "work",
@@ -93,9 +98,14 @@ export const navigation: NavItem[] = [
     href: { pt: "/pt/#work", en: "/en/#work" },
   },
   {
+    id: "skills",
+    label: { pt: "Capacidades", en: "Skills" },
+    href: { pt: "/pt/#skills", en: "/en/#skills" },
+  },
+  {
     id: "contact",
     label: { pt: "Contato", en: "Contact" },
-    href: { pt: "/pt/contact/", en: "/en/contact/" },
+    href: { pt: "/pt/#contact", en: "/en/#contact" },
   },
 ];
 
@@ -137,7 +147,9 @@ export const ui = {
   sections: {
     selectedWork: { pt: "Trabalhos selecionados", en: "Selected work" },
     experience: { pt: "Experiência", en: "Experience" },
+    education: { pt: "Educação", en: "Education" },
     capabilities: { pt: "Capacidades", en: "Capabilities" },
+    available: { pt: "Aberto a oportunidades", en: "Open to opportunities" },
     contact: { pt: "Contato", en: "Contact" },
     relatedWork: { pt: "Trabalhos relacionados", en: "Related work" },
     viewProject: { pt: "Ver projeto", en: "View project" },

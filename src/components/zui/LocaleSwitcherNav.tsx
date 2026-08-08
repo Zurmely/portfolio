@@ -22,7 +22,7 @@ export default function LocaleSwitcherNav({ locale, alternateHref }: LocaleSwitc
       aria-label="Language"
     >
       {ptHref ? (
-        <Link href={ptHref} hrefLang="pt" lang="pt">
+        <Link href={ptHref} hrefLang="pt" lang="pt" data-locale-link="pt">
           {getLocaleShortLabel("pt")}
         </Link>
       ) : (
@@ -32,7 +32,7 @@ export default function LocaleSwitcherNav({ locale, alternateHref }: LocaleSwitc
       )}
       <Separator orientation="vertical" className="locale-switcher__separator" />
       {enHref ? (
-        <Link href={enHref} hrefLang="en" lang="en">
+        <Link href={enHref} hrefLang="en" lang="en" data-locale-link="en">
           {getLocaleShortLabel("en")}
         </Link>
       ) : (

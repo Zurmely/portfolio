@@ -1,55 +1,39 @@
 ---
-import Container from "@/components/Container.astro";
-import ButtonLink from "@/components/ButtonLink.astro";
-import SeoHead from "@/components/SeoHead.astro";
 import ThemeInit from "@/components/ThemeInit.astro";
-import { Stack } from "@z-ux/ui/stack";
-import { ui } from "@/data/site";
 import "@/styles/global.css";
 ---
 
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ThemeInit />
-    <SeoHead
-      locale="pt"
-      title={`${ui.localeGateway.title.pt} | Gabriel Zurmely`}
-      description={ui.localeGateway.subtitle.pt}
-      path="/"
-    />
+    <meta http-equiv="refresh" content="0;url=/pt/" />
+    <title>Gabriel Zurmely</title>
     <script is:inline>
       (function () {
         try {
-          const lang = (navigator.language || "").toLowerCase();
-          if (lang.startsWith("en")) {
-            window.location.replace("/en/");
+          const stored = localStorage.getItem("lang");
+          if (stored === "en" || stored === "pt") {
+            window.location.replace("/" + stored + "/");
+            return;
           }
+          const lang = (navigator.language || "").toLowerCase();
+          window.location.replace(lang.startsWith("en") ? "/en/" : "/pt/");
         } catch {
-          /* no-op */
+          window.location.replace("/pt/");
         }
       })();
     </script>
   </head>
-  <body class="locale-gateway">
-    <Container class="locale-gateway__panel">
-      <Stack direction="vertical" gap="lg">
-        <p class="site-eyebrow">Gabriel Zurmely</p>
-        <h1 class="site-heading">{ui.localeGateway.title.pt}</h1>
-        <p class="site-lead">{ui.localeGateway.subtitle.pt}</p>
-        <Stack direction="horizontal" gap="md" className="site-actions">
-          <ButtonLink href="/pt/">{ui.localeGateway.continuePt}</ButtonLink>
-          <ButtonLink href="/en/" variant="secondary">{ui.localeGateway.continueEn}</ButtonLink>
-        </Stack>
-      </Stack>
-    </Container>
+  <body>
+    <noscript>
+      <p>Choose your language:</p>
+      <ul>
+        <li><a href="/pt/">Português</a></li>
+        <li><a href="/en/">English</a></li>
+      </ul>
+    </noscript>
   </body>
 </html>
-
-<style>
-  .locale-gateway .site-eyebrow,
-  .locale-gateway .site-heading,
-  .locale-gateway .site-lead {
-    color: var(--z-color-text-inverse);
-  }
-</style>

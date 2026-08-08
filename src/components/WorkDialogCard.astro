@@ -1,0 +1,47 @@
+---
+import type { Locale } from "@/i18n/utils";
+import WorkDialogCard from "@/components/zui/WorkDialogCard";
+import { ui } from "@/data/site";
+import { render } from "astro:content";
+
+interface Props {
+  locale: Locale;
+  entry: Awaited<ReturnType<typeof import("astro:content").getCollection<"work">>>[number];
+}
+
+const { locale, entry }: Props = Astro.props;
+const { Content } = await render(entry);
+
+const meta = `${entry.data.client ?? entry.data.context ?? entry.data.role} · ${entry.data.publishDate.getFullYear()}`;
+
+const metaFields = [
+  { label: ui.workMeta.role[locale], value: entry.data.role },
+  entry.data.client ? { label: ui.workMeta.client[locale], value: entry.data.client } : null,
+  entry.data.context ? { label: ui.workMeta.context[locale], value: entry.data.context } : null,
+  entry.data.duration ? { label: ui.workMeta.duration[locale], value: entry.data.duration } : null,
+  entry.data.tools.length > 0
+    ? { label: ui.workMeta.tools[locale], value: entry.data.tools.join(", ") }
+    : null,
+  entry.data.disciplines.length > 0
+    ? { label: ui.workMeta.disciplines[locale], value: entry.data.disciplines.join(", ") }
+    : null,
+].filter((field): field is { label: string; value: string } => field !== null);
+
+const galleryLabel = locale === "pt" ? "Galeria do projeto" : "Project gallery";
+---
+
+<WorkDialogCard
+  client:visible
+  title={entry.data.title}
+  summary={entry.data.summary}
+  meta={meta}
+  placeholder={locale === "pt" ? "Imagem placeholder do projeto" : "Project image placeholder"}
+  ctaLabel={ui.sections.readCaseStudy[locale]}
+  metaFields={metaFields}
+  gallery={entry.data.gallery}
+  galleryLabel={galleryLabel}
+  externalLinks={entry.data.externalLinks}
+  externalLinkLabel={ui.sections.externalLink[locale]}
+>
+  <Content />
+</WorkDialogCard>

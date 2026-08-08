@@ -2,17 +2,25 @@
 import PageShell from "@/components/PageShell.astro";
 import Container from "@/components/Container.astro";
 import Section from "@/components/Section.astro";
-import ButtonLink from "@/components/ButtonLink.astro";
-import ProjectCard from "@/components/ProjectCard.astro";
-import ExperienceList from "@/components/ExperienceList.astro";
-import FeatureGrid from "@/components/zui/FeatureGrid";
+import WorkDialogCard from "@/components/WorkDialogCard.astro";
+import ResumeHero from "@/components/zui/ResumeHero";
+import ExperienceTabs from "@/components/zui/ExperienceTabs";
+import SkillsGrid from "@/components/zui/SkillsGrid";
+import ContactList from "@/components/zui/ContactList";
 import { Stack } from "@z-ux/ui/stack";
 import { getCollection } from "astro:content";
 import type { Locale } from "@/i18n/utils";
 import { locales } from "@/i18n/utils";
-import { profile, siteMeta, ui } from "@/data/site";
+import {
+  contactLinks,
+  isRenderableLink,
+  profile,
+  resolveLinkHref,
+  siteMeta,
+  ui,
+} from "@/data/site";
 import { getSiteUrl } from "@/data/site";
-import { sortByDateDesc, sortByOrder } from "@/utils/content";
+import { formatDateRange, sortByDateDesc, sortByOrder } from "@/utils/content";
 
 export async function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -31,11 +39,56 @@ const experienceItems = sortByDateDesc(
   await getCollection("experience", ({ data }) => data.locale === locale && !data.draft),
 );
 
+const professionalItems = experienceItems.filter(
+  (item) => item.data.employmentType !== "education",
+);
+const educationItems = experienceItems.filter((item) => item.data.employmentType === "education");
+
+function mapTimelineItems(items: typeof experienceItems): Array<{
+  role: string;
+  organization: string;
+  location?: string;
+  dates: string;
+  currentLabel?: string;
+  summary: string;
+  achievements: string[];
+  skills: string[];
+  highlightsLabel: string;
+  skillsLabel: string;
+}> {
+  return items.map((item) => ({
+    role: item.data.role,
+    organization: item.data.organization,
+    location: item.data.location,
+    dates: formatDateRange(
+      item.data.startDate,
+      item.data.endDate,
+      locale,
+      ui.sections.present[locale],
+      item.data.current,
+    ),
+    currentLabel: item.data.current ? ui.sections.currentRole[locale] : undefined,
+    summary: item.data.summary,
+    achievements: item.data.achievements,
+    skills: item.data.skills,
+    highlightsLabel: locale === "pt" ? "Destaques" : "Highlights",
+    skillsLabel: locale === "pt" ? "Competências" : "Skills",
+  }));
+}
+
 const featureIcons = ["Layers", "Lightbulb", "Users"] as const;
-const featureItems = profile.capabilities[locale].map((item, index) => ({
+const capabilityItems = profile.capabilities[locale].map((item, index) => ({
   title: item.title,
   description: item.description,
   icon: featureIcons[index] ?? "Layers",
+}));
+
+const aggregatedSkills = [...new Set(experienceItems.flatMap((item) => item.data.skills))].sort();
+
+const contactListItems = contactLinks.filter(isRenderableLink).map((link) => ({
+  label: link.label[locale],
+  href: resolveLinkHref(link),
+  external: link.external,
 }));
 
 const jsonLd = {
@@ -63,20 +116,64 @@ const jsonLd = {
   path={`/${locale}/`}
   jsonLd={jsonLd}
 >
-  <Section tone="inverse">
+  <Section tone="inverse" id="about">
+    <Container>
+      <ResumeHero
+        name={siteMeta.name}
+        headline={profile.headline[locale]}
+        intro={profile.intro[locale]}
+        location={siteMeta.location[locale]}
+        availableLabel={ui.sections.available[locale]}
+        workCtaLabel={ui.sections.selectedWork[locale]}
+        contactCtaLabel={ui.sections.getInTouch[locale]}
+        workHref={`/${locale}/#work`}
+        contactHref={`/${locale}/#contact`}
+      />
+    </Container>
+  </Section>
+
+  <Section tone="subtle" id="experience">
     <Container>
       <Stack direction="vertical" gap="lg" className="site-section__inner">
         <Stack direction="vertical" gap="md" className="site-section__header">
-          <p class="site-eyebrow">{siteMeta.name}</p>
-          <h1 class="site-heading site-heading--hero">{profile.headline[locale]}</h1>
-          <p class="site-lead">{profile.intro[locale]}</p>
-          <Stack direction="horizontal" gap="md" className="site-actions">
-            <ButtonLink href={`/${locale}/#work`}>{ui.sections.selectedWork[locale]}</ButtonLink>
-            <ButtonLink href={`/${locale}/contact/`} variant="secondary">
-              {ui.sections.getInTouch[locale]}
-            </ButtonLink>
-          </Stack>
+          <h2 class="site-heading">{ui.sections.experience[locale]}</h2>
+          <p class="site-lead">
+            {
+              locale === "pt"
+                ? "Trajetória profissional e acadêmica em formato de currículo."
+                : "Professional and academic path in a CV-style timeline."
+            }
+          </p>
         </Stack>
+        <ExperienceTabs
+          client:visible
+          experienceLabel={ui.sections.experience[locale]}
+          educationLabel={ui.sections.education[locale]}
+          experienceItems={mapTimelineItems(professionalItems)}
+          educationItems={mapTimelineItems(educationItems)}
+        />
+      </Stack>
+    </Container>
+  </Section>
+
+  <Section tone="surface" id="skills">
+    <Container>
+      <Stack direction="vertical" gap="lg" className="site-section__inner">
+        <Stack direction="vertical" gap="md" className="site-section__header">
+          <h2 class="site-heading">{ui.sections.capabilities[locale]}</h2>
+          <p class="site-lead">
+            {
+              locale === "pt"
+                ? "Áreas em que atuo entre descoberta, interface e entrega."
+                : "Areas where I work across discovery, interface, and delivery."
+            }
+          </p>
+        </Stack>
+        <SkillsGrid
+          capabilities={capabilityItems}
+          skills={aggregatedSkills}
+          skillsLabel={locale === "pt" ? "Competências" : "Skills"}
+        />
       </Stack>
     </Container>
   </Section>
@@ -95,62 +192,20 @@ const jsonLd = {
           </p>
         </Stack>
         <div class="site-grid site-grid--2">
-          {workItems.map((entry) => <ProjectCard locale={locale} entry={entry} />)}
+          {workItems.map((entry) => <WorkDialogCard locale={locale} entry={entry} />)}
         </div>
       </Stack>
     </Container>
   </Section>
 
-  <Section tone="subtle">
+  <Section tone="subtle" id="contact">
     <Container>
       <Stack direction="vertical" gap="lg" className="site-section__inner">
         <Stack direction="vertical" gap="md" className="site-section__header">
-          <h2 class="site-heading">{ui.sections.experience[locale]}</h2>
-          <p class="site-lead">
-            {
-              locale === "pt"
-                ? "Trajetória profissional e acadêmica em formato de currículo."
-                : "Professional and academic path in a CV-style timeline."
-            }
-          </p>
+          <h2 class="site-heading">{ui.contactPage.title[locale]}</h2>
+          <p class="site-lead">{ui.contactPage.intro[locale]}</p>
         </Stack>
-        <ExperienceList locale={locale} items={experienceItems} />
-      </Stack>
-    </Container>
-  </Section>
-
-  <Section tone="surface">
-    <Container>
-      <Stack direction="vertical" gap="lg" className="site-section__inner">
-        <Stack direction="vertical" gap="md" className="site-section__header">
-          <h2 class="site-heading">{ui.sections.capabilities[locale]}</h2>
-          <p class="site-lead">
-            {
-              locale === "pt"
-                ? "Áreas em que atuo entre descoberta, interface e entrega."
-                : "Areas where I work across discovery, interface, and delivery."
-            }
-          </p>
-        </Stack>
-        <FeatureGrid items={featureItems} />
-      </Stack>
-    </Container>
-  </Section>
-
-  <Section tone="subtle">
-    <Container>
-      <Stack direction="vertical" gap="lg" className="site-section__inner">
-        <Stack direction="vertical" gap="md" className="site-section__header">
-          <h2 class="site-heading">{ui.sections.contact[locale]}</h2>
-          <p class="site-lead">
-            {
-              locale === "pt"
-                ? "Aberto a conversas sobre design, produto e colaboração."
-                : "Open to conversations about design, product, and collaboration."
-            }
-          </p>
-          <ButtonLink href={`/${locale}/contact/`}>{ui.sections.getInTouch[locale]}</ButtonLink>
-        </Stack>
+        <ContactList links={contactListItems} note={ui.contactPage.note[locale]} />
       </Stack>
     </Container>
   </Section>

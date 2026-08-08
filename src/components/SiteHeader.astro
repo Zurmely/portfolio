@@ -2,6 +2,7 @@
 import type { Locale } from "@/i18n/utils";
 import { getAlternateLocale } from "@/i18n/utils";
 import SiteNavbar from "@/components/zui/SiteNavbar";
+import MobileNavDrawer from "@/components/zui/MobileNavDrawer";
 import { navigation, siteMeta, ui } from "@/data/site";
 import { THEME_STORAGE_KEY } from "@/utils/theme-init";
 
@@ -20,23 +21,17 @@ function buildAlternatePath(path: string, nextLocale: Locale): string {
   return `/${segments.join("/")}${path.endsWith("/") ? "/" : ""}`;
 }
 
-function isCurrent(href: string): boolean {
-  if (href.includes("#")) return false;
-  const normalizedHref = href.endsWith("/") ? href : `${href}/`;
-  const normalizedPath = currentPath.endsWith("/") ? currentPath : `${currentPath}/`;
-  return normalizedPath === normalizedHref;
-}
-
 const items = navigation.map((item) => ({
   label: item.label[locale],
   href: item.href[locale],
-  current: isCurrent(item.href[locale]),
 }));
 
 const themeLabels = {
   toDark: ui.themeToggle.toDark[locale],
   toLight: ui.themeToggle.toLight[locale],
 };
+
+const menuLabel = locale === "pt" ? "Abrir menu" : "Open menu";
 ---
 
 <div class="site-top-shell">
@@ -45,12 +40,13 @@ const themeLabels = {
       brand={siteMeta.name}
       homeHref={`/${locale}/`}
       navLabel={locale === "pt" ? "Principal" : "Main"}
-      menuLabel={locale === "pt" ? "Abrir menu" : "Open menu"}
       items={items}
       locale={locale}
       alternateHref={buildAlternatePath(currentPath, alternate)}
       themeLabels={themeLabels}
-    />
+    >
+      <MobileNavDrawer client:idle items={items} menuLabel={menuLabel} />
+    </SiteNavbar>
   </div>
 </div>
 
@@ -82,5 +78,20 @@ const themeLabels = {
 
   toggle?.addEventListener("click", () => {
     setTheme(getCurrentTheme() === "dark" ? "light" : "dark");
+  });
+</script>
+
+<script is:inline>
+  document.querySelectorAll("[data-locale-link]").forEach((link) => {
+    link.addEventListener("click", () => {
+      const locale = link.getAttribute("data-locale-link");
+      if (locale === "pt" || locale === "en") {
+        try {
+          localStorage.setItem("lang", locale);
+        } catch {
+          /* no-op */
+        }
+      }
+    });
   });
 </script>

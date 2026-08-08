@@ -1,39 +1,54 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-const routes = [
-  "/",
-  "/pt/",
-  "/en/",
-  "/pt/contact/",
-  "/en/contact/",
-  "/pt/work/sample-app-design-pt/",
-];
+const routes = ["/", "/pt/", "/en/"];
 
 for (const route of routes) {
   test(`route renders: ${route}`, async ({ page }) => {
+    if (route === "/") {
+      await page.goto(route, { waitUntil: "commit" });
+      await expect(page).toHaveURL(/\/(pt|en)\/$/);
+      return;
+    }
     await page.goto(route);
-    await expect(page.locator("main, .locale-gateway")).toBeVisible();
+    await expect(page.locator("main")).toBeVisible();
   });
 }
 
-test("locale gateway links work without javascript dependency", async ({ page }) => {
+test("root redirects to locale resume based on browser language", async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(navigator, "language", {
-      get: () => "pt-BR",
+      get: () => "en-US",
     });
+    localStorage.removeItem("lang");
   });
-  await page.goto("/");
-  await expect(page.getByRole("link", { name: /Continuar em português/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Continue in English/i })).toBeVisible();
+  await page.goto("/", { waitUntil: "commit" });
+  await expect(page).toHaveURL(/\/en\/$/);
 });
 
-test("mobile menu toggles", async ({ page }) => {
+test("mobile drawer opens navigation links", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/pt/");
   const toggle = page.getByRole("button", { name: /Abrir menu|Open menu/i });
   await toggle.click();
-  await expect(page.locator("#mobile-navigation")).toHaveClass(/is-open/);
+  await expect(page.getByRole("link", { name: /Experiência|Experience/i }).first()).toBeVisible();
+});
+
+test("experience tabs switch between experience and education", async ({ page }) => {
+  await page.goto("/en/#experience");
+  const educationTab = page.getByRole("tab", { name: /Education/i });
+  await expect(educationTab).toBeVisible();
+  await educationTab.click();
+  await expect(page.locator("#experience").getByText(/Design Degree/i)).toBeVisible();
+});
+
+test("work dialog opens case study content", async ({ page }) => {
+  await page.goto("/en/#work");
+  const readButton = page.getByRole("button", { name: /Read case study/i });
+  await expect(readButton).toBeVisible();
+  await readButton.click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /TODO_CONTENT: App design name/i })).toBeVisible();
 });
 
 test("homepage has no horizontal overflow on mobile", async ({ page }) => {

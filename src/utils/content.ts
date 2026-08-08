@@ -40,7 +40,3 @@ export function sortByDateDesc<T extends { data: { startDate?: Date; publishDate
 export function getWorkSlug(entry: { id: string; data: { locale: Locale } }): string {
   return entry.id.replace(/\.(md|mdx)$/, "");
 }
-
-export function getLocalizedWorkPath(locale: Locale, slug: string): string {
-  return `/${locale}/work/${slug}/`;
-}
