@@ -57,7 +57,7 @@ Use semantic `--z-*` tokens only. Do not invent one-off hex values or local toke
 
 Shared chrome: [`PageShell.astro`](src/components/PageShell.astro) (header + footer + SEO + theme init). The locale gateway does **not** use PageShell; it still loads `ThemeInit` and global CSS.
 
-Sections use tone classes via [`Section.astro`](src/components/Section.astro): `default`, `surface`, `subtle`, `inverse`.
+Sections use tone classes via [`Section.astro`](src/components/Section.astro): `default`, `surface`, `subtle`, `inverse`. Prefer `default` (white canvas in light theme); keep theme switching via `data-theme`.
 
 ## Content and copy
 

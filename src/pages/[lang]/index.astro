@@ -116,14 +116,13 @@ const jsonLd = {
   path={`/${locale}/`}
   jsonLd={jsonLd}
 >
-  <Section tone="inverse" id="about">
+  <Section id="about">
     <Container>
       <ResumeHero
         name={siteMeta.name}
         headline={profile.headline[locale]}
         intro={profile.intro[locale]}
         location={siteMeta.location[locale]}
-        availableLabel={ui.sections.available[locale]}
         workCtaLabel={ui.sections.selectedWork[locale]}
         contactCtaLabel={ui.sections.getInTouch[locale]}
         workHref={`/${locale}/#work`}
@@ -132,7 +131,7 @@ const jsonLd = {
     </Container>
   </Section>
 
-  <Section tone="subtle" id="experience">
+  <Section id="experience">
     <Container>
       <Stack direction="vertical" gap="lg" className="site-section__inner">
         <Stack direction="vertical" gap="md" className="site-section__header">
@@ -156,7 +155,7 @@ const jsonLd = {
     </Container>
   </Section>
 
-  <Section tone="surface" id="skills">
+  <Section id="skills">
     <Container>
       <Stack direction="vertical" gap="lg" className="site-section__inner">
         <Stack direction="vertical" gap="md" className="site-section__header">
@@ -178,7 +177,7 @@ const jsonLd = {
     </Container>
   </Section>
 
-  <Section tone="surface" id="work">
+  <Section id="work">
     <Container>
       <Stack direction="vertical" gap="lg" className="site-section__inner">
         <Stack direction="vertical" gap="md" className="site-section__header">
@@ -198,7 +197,7 @@ const jsonLd = {
     </Container>
   </Section>
 
-  <Section tone="subtle" id="contact">
+  <Section id="contact">
     <Container>
       <Stack direction="vertical" gap="lg" className="site-section__inner">
         <Stack direction="vertical" gap="md" className="site-section__header">

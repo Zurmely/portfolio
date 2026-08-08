@@ -12,6 +12,13 @@
   --site-header-gap: var(--z-spacing-gap-section);
 }
 
+/* Prefer a flat white canvas in light theme; dark theme keeps token defaults. */
+[data-theme="light"] {
+  --z-color-background-canvas: var(--z-absolute-white);
+  --z-color-background-surface: var(--z-absolute-white);
+  --z-color-background-subtle: var(--z-absolute-white);
+}
+
 *,
 *::before,
 *::after {
@@ -125,8 +132,8 @@ p {
 }
 
 .site-section--inverse {
-  background: var(--z-color-background-inverse);
-  color: var(--z-color-text-inverse);
+  background: var(--z-color-background-canvas);
+  color: var(--z-color-text-primary);
 }
 
 .site-section__inner {
@@ -144,21 +151,12 @@ p {
   color: var(--z-color-text-secondary);
 }
 
-.site-section--inverse .site-eyebrow {
-  color: var(--z-color-text-inverse);
-  opacity: 0.8;
-}
-
 .site-heading {
   font-family: var(--z-text-h2-font-family);
   font-size: var(--z-text-h2-size);
   font-weight: var(--z-text-h2-weight);
   line-height: var(--z-text-h2-line-height);
   color: var(--z-color-text-primary);
-}
-
-.site-section--inverse .site-heading {
-  color: var(--z-color-text-inverse);
 }
 
 .site-heading--hero {
@@ -175,11 +173,6 @@ p {
   line-height: var(--z-text-body-line-height);
   color: var(--z-color-text-secondary);
   max-width: 42rem;
-}
-
-.site-section--inverse .site-lead {
-  color: var(--z-color-text-inverse);
-  opacity: 0.88;
 }
 
 .site-actions {
@@ -204,8 +197,8 @@ p {
 }
 
 .site-top-shell {
-  background: var(--z-color-background-inverse);
-  color: var(--z-color-text-inverse);
+  background: var(--z-color-background-canvas);
+  color: var(--z-color-text-primary);
 }
 
 .site-navbar.z-navbar {
@@ -219,33 +212,23 @@ p {
   padding-block: var(--z-spacing-inset-box-comfortable);
 }
 
-.site-navbar .z-navbar__logo,
-.site-navbar .site-navbar__brand,
-.site-navbar .z-navbar__item > a,
-.site-navbar .locale-switcher,
-.site-navbar .locale-switcher a,
-.site-navbar .locale-switcher span,
-.site-navbar .z-icon-button {
-  color: var(--z-color-text-inverse);
-}
-
 .site-navbar .site-navbar__brand {
+  color: var(--z-color-text-primary);
   text-decoration: none;
   font-size: var(--z-text-title-size);
   font-weight: var(--z-text-title-weight);
 }
 
 .site-navbar .z-navbar__item > a {
-  opacity: 0.88;
+  color: var(--z-color-text-secondary);
   text-decoration: none;
 }
 
 .site-navbar .z-navbar__item > a:hover,
 .site-navbar .z-navbar__item > a:focus-visible,
 .site-navbar .z-navbar__item > a[aria-current="page"] {
-  opacity: 1;
-  color: var(--z-color-text-inverse);
-  background: color-mix(in oklch, var(--z-color-text-inverse) 12%, transparent);
+  color: var(--z-color-text-primary);
+  background: color-mix(in oklch, var(--z-color-text-primary) 8%, transparent);
 }
 
 .site-navbar__desktop {
@@ -286,7 +269,7 @@ p {
 .locale-switcher__separator {
   height: 1rem;
   align-self: center;
-  background: color-mix(in oklch, var(--z-color-text-inverse) 40%, transparent);
+  background: var(--z-color-border-subtle);
 }
 
 .locale-switcher a,
@@ -303,8 +286,9 @@ p {
 }
 
 .site-footer-shell {
-  background: var(--z-color-background-inverse);
-  color: var(--z-color-text-inverse);
+  background: var(--z-color-background-canvas);
+  color: var(--z-color-text-primary);
+  border-top: 1px solid var(--z-color-border-subtle);
 }
 
 .site-footer {
@@ -330,32 +314,29 @@ p {
   font-size: var(--z-text-h4-size);
   font-weight: var(--z-text-h4-weight);
   line-height: var(--z-text-h4-line-height);
-  color: inherit;
+  color: var(--z-color-text-primary);
 }
 
 .site-footer__description {
   font-size: var(--z-text-title-size);
   line-height: var(--z-text-body-line-height);
-  color: inherit;
-  opacity: 0.88;
+  color: var(--z-color-text-secondary);
   max-width: 42rem;
 }
 
 .site-footer__meta {
   font-size: var(--z-text-caption-size);
-  color: inherit;
-  opacity: 0.8;
+  color: var(--z-color-text-tertiary);
 }
 
 .site-footer .z-link {
-  color: inherit;
-  opacity: 0.88;
+  color: var(--z-color-text-secondary);
   text-decoration: none;
 }
 
 .site-footer .z-link:hover,
 .site-footer .z-link:focus-visible {
-  opacity: 1;
+  color: var(--z-color-text-primary);
 }
 
 .site-footer .z-separator {

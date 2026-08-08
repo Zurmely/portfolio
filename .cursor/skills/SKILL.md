@@ -43,7 +43,7 @@ Set `data-theme="light"` or `data-theme="dark"` on `<html>`. Theme bootstrap liv
 | Subtle | `site-section--subtle` | `--z-color-background-subtle` |
 | Inverse | `site-section--inverse` | `--z-color-background-inverse` |
 
-Hero, header shell, and footer use inverse tone.
+Prefer default (canvas) tone across the page. Light theme maps canvas/surface/subtle to white; dark theme uses the published token values via the theme toggle.
 
 ## Component mapping
 

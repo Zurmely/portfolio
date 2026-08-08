@@ -149,7 +149,6 @@ export const ui = {
     experience: { pt: "Experiência", en: "Experience" },
     education: { pt: "Educação", en: "Education" },
     capabilities: { pt: "Capacidades", en: "Capabilities" },
-    available: { pt: "Aberto a oportunidades", en: "Open to opportunities" },
     contact: { pt: "Contato", en: "Contact" },
     relatedWork: { pt: "Trabalhos relacionados", en: "Related work" },
     viewProject: { pt: "Ver projeto", en: "View project" },

@@ -8,7 +8,6 @@ type ResumeHeroProps = {
   headline: string;
   intro: string;
   location: string;
-  availableLabel: string;
   workCtaLabel: string;
   contactCtaLabel: string;
   workHref: string;
@@ -20,7 +19,6 @@ export default function ResumeHero({
   headline,
   intro,
   location,
-  availableLabel,
   workCtaLabel,
   contactCtaLabel,
   workHref,
@@ -32,9 +30,6 @@ export default function ResumeHero({
         <Avatar fallback="GZ" size="lg" alt="" />
         <Stack direction="vertical" gap="sm">
           <p className="site-eyebrow">{name}</p>
-          <Badge tone="neutral" size="sm">
-            {availableLabel}
-          </Badge>
         </Stack>
       </Stack>
       <Stack direction="vertical" gap="md" className="site-section__header">
